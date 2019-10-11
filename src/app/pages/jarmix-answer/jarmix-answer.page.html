@@ -1,0 +1,327 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+      <ion-buttons slot="end">
+          <ion-button (click)="close()"> 
+              <ion-icon color="danger" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+
+      <ion-title>{{jarMixTest.product}}</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button [disabled]="visible == 0 " (click)="back()"  color="rw" >
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+  
+    <ion-buttons  slot="end">
+        <ion-button [disabled]="!answer.name.trim() || buttons[visible] == false || visible == (totalJAR + 5)" (click)="next()"  color="rw" >
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </ion-button>
+    </ion-buttons>
+</ion-toolbar>
+
+<div *ngIf="visible == 0">
+  
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" style="text-align: center; font-weight: bold ">
+            <ion-label class="ion-text-wrap">
+                Prueba con Consumidores: {{jarMixTest.product}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" style="text-align: center; font-weight: bold">
+            <ion-label class="ion-text-wrap">
+                MUESTRA: {{jarMixTest.sample1 | uppercase}}
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      </div>
+
+  <div>
+      <ion-item>
+          <ion-label style="font-weight: bold">Nombre:</ion-label>
+          <ion-input
+          type="text"
+          placeholder="Escriba su nombre"
+          [(ngModel)]="answer.name">
+          </ion-input>
+      </ion-item>
+  </div>
+
+  <div>
+      <ion-item>
+          <ion-label style="text-align: center; font-weight: bold;">Instrucciones</ion-label>
+      </ion-item>
+  </div>
+  <ion-grid *ngFor="let instruction of instructions | async">
+    <ion-row *ngFor="let inst of instruction.instructions">
+      <ion-col size="1" style="text-align: center">
+         <ion-label><b>{{inst.substring(0,2)}}</b></ion-label> 
+      </ion-col>
+      <ion-col style="text-align: justify">
+         <ion-label>{{inst.substring(2, inst.length)}}</ion-label> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+
+<div *ngIf="visible == 1">
+ <ion-grid>
+   <ion-row>
+     <ion-col size="12" style="text-align: center">
+      <ion-label class="ion-text-wrap">
+        <b>Evaluación general:</b> Considerando todos los aspectos de este producto (apariencia, color, sabor,
+        aroma, textura, etc.)                 
+    </ion-label>
+     </ion-col>
+   </ion-row>
+   <ion-row>
+    <ion-col size="12" style="text-align: center">
+     <ion-label class="ion-text-wrap">¿Qué calificación le daría? </ion-label>
+    </ion-col>
+  </ion-row>
+ </ion-grid>
+
+    <ion-grid>
+        <ion-segment [(ngModel)]="answer.generalSample">
+          <ion-row >
+            <ion-col *ngFor="let general of jarMixTest.general.scales; index as i"
+            size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12" class="general">
+                <ion-segment-button (ionSelect)="generalSelected()"         
+                                    value="{{i + 1}}">
+                    <ion-label class="ion-text-wrap">
+                      {{general}}
+                    </ion-label>
+                  </ion-segment-button>
+            </ion-col>
+          </ion-row>
+    
+        </ion-segment>
+     </ion-grid>
+
+ 
+ 
+</div>
+
+<div *ngIf="visible > 1 && visible <= (totalJAR + 1) ">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" style="text-align: center">
+        <ion-label class="ion-text-wrap">
+            El <b><u>{{jarMixTest.jars[count].attribute | uppercase}} {{jarMixTest.diminutivo | uppercase}}</u></b> está:
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-segment [(ngModel)]="jars[count].point">
+    <ion-row>
+      <ion-col class="jar1" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+          <ion-segment-button value="1"
+                              (click)="jarSelected()">           
+              <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar1}}</ion-label>
+        </ion-segment-button>
+      </ion-col>
+      <ion-col class="jar2" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+          <ion-segment-button value="2"
+                              (click)="jarSelected()">             
+              <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar2}}</ion-label> 
+          </ion-segment-button>
+      </ion-col>
+      <ion-col class="jar3" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+          <ion-segment-button value="3"
+                              (click)="jarSelected()">               
+              <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar3}}</ion-label>
+            </ion-segment-button>
+      </ion-col>
+      <ion-col class="jar2" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12"> 
+          <ion-segment-button value="4"
+                              (click)="jarSelected()">            
+              <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar4}}</ion-label>
+            </ion-segment-button>
+      </ion-col>
+      <ion-col class="jar1" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+          <ion-segment-button value="5"
+                              (click)="jarSelected()">               
+              <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar5}}</ion-label>
+            </ion-segment-button>
+      </ion-col>
+    </ion-row>
+  </ion-segment>
+  </ion-grid>
+</div>
+
+<div *ngIf="visible == (totalJAR + 2)">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" style="text-align: center">
+        <ion-label class="ion-text-wrap">
+            ¿Qué otro atributo <b>ADICIONAL</b> le  
+        </ion-label>
+        <ion-label color="gw" class="ion-text-wrap">
+            <b>AGRADÓ</b>
+        </ion-label>
+        <ion-label class="ion-text-wrap">
+            de este producto?
+        </ion-label>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="asemejan">
+          <ion-input
+          type="text"
+          [(ngModel)]="answer.agrado1"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+      <ion-col class="asemejan">
+          <ion-input 
+          type="text"
+          [(ngModel)]="answer.agrado2"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+      <ion-col class="asemejan">
+          <ion-input 
+          type="text"
+          [(ngModel)]="answer.agrado3"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+      <ion-col class="asemejan">
+          <ion-input 
+          type="text"
+          [(ngModel)]="answer.agrado4"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+    </ion-row>
+    <br><br><br>
+    <ion-row>
+      <ion-col size="12" style="text-align: center">
+        <ion-label class="ion-text-wrap">
+            ¿Qué otro atributo <b>ADICIONAL</b> le <b></b> 
+        </ion-label>
+        <ion-label color="rw" class="ion-text-wrap">
+            DESAGRADÓ
+        </ion-label>
+        <ion-label class="ion-text-wrap">
+            de este producto?
+        </ion-label>
+      </ion-col>
+    </ion-row>
+ 
+    <ion-row>
+      <ion-col class="diferencian">
+          <ion-input 
+          type="text"
+          [(ngModel)]="answer.desagrado1"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+      <ion-col class="diferencian">
+          <ion-input  
+          type="text"
+          [(ngModel)]="answer.desagrado2"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+      <ion-col class="diferencian">
+          <ion-input 
+          type="text"
+          [(ngModel)]="answer.desagrado3"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+      <ion-col class="diferencian">
+          <ion-input 
+          type="text"
+          [(ngModel)]="answer.desagrado4"
+          (ionChange)="validInput()"
+          placeholder="Escriba aquí"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+
+<div *ngIf="visible == (totalJAR + 3)">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" style="text-align: center">
+        <ion-label class="ion-text-wrap">
+            Si este producto estuviera en donde usted usualmente compra y al precio que usted usualmente
+            los compra, ¿Lo compraría?
+        </ion-label>
+      </ion-col>
+    </ion-row> 
+  </ion-grid>
+  <ion-grid>
+    
+    <ion-row>
+      <ion-col >
+          <ion-segment [(ngModel)]="answer.comprar" (ionChange)="buySelected()">
+          <ion-segment-button class="si" value= true>
+              <ion-label>Si</ion-label>
+            </ion-segment-button>
+
+          <ion-segment-button class="no"  value= false>
+              <ion-label>No</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+      </ion-col>
+    
+    </ion-row>
+  
+  </ion-grid>
+  
+</div>
+
+<div *ngIf="visible == (totalJAR + 4)">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" style="text-align: center">
+        <ion-label class="ion-text-wrap">
+            ¿Es usted consumidor 
+        </ion-label>
+        <ion-label class="ion-text-wrap"><b>{{jarMixTest.diminutivo | uppercase}}</b>?</ion-label>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    
+    <ion-row>
+        
+      <ion-col >
+          <ion-segment [(ngModel)]="answer.consumir" (ionChange)="consumerSelected()">
+          <ion-segment-button class="si" value= true>
+              <ion-label>Si</ion-label>
+            </ion-segment-button>
+
+          <ion-segment-button class="no" value= false>
+              <ion-label>No</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+      </ion-col>
+    </ion-row>
+  
+  </ion-grid>
+</div>
+
+<div *ngIf="visible == (totalJAR + 5)">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" style="text-align: center">
+          <ion-button (click)="save()"  size="large" color="rw">Guardar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+</ion-content>

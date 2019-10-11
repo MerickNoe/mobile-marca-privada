@@ -1,0 +1,389 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+          <ion-icon color="danger" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title>{{ pareadaTest.product }} {{ pareadaTest.sample1 }} {{ pareadaTest.sample2 }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+<ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button [disabled]="visible == 0 " (click)="back()"  color="pw" >
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+  
+    <ion-buttons  slot="end">
+        <ion-button [disabled]="!answer.name.trim() || buttons[visible] == false || visible == (totalJAR + 4)" (click)="next()"  color="pw" >
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </ion-button>
+    </ion-buttons>
+</ion-toolbar>
+
+
+      <div *ngIf="visible == 0">
+
+          <div>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="12" style="text-align: center; font-weight: bold ">
+                    <ion-label class="ion-text-wrap">
+                        Prueba Preliminar: {{pareadaTest.product}}
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12" style="text-align: center; font-weight: bold">
+                    <ion-label class="ion-text-wrap">
+                        MUESTRA 1: {{pareadaTest.sample1 | uppercase}}
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12" style="text-align: center; font-weight: bold">
+                    <ion-label class="ion-text-wrap">
+                      MUESTRA 2 : {{ pareadaTest.sample2 | uppercase }}
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              </div>
+        <div>
+            <ion-item>
+                <ion-label style="font-weight: bold">Nombre:</ion-label>
+                <ion-input
+                type="text"
+                placeholder="Escriba su nombre"
+                [(ngModel)]="answer.name">
+                </ion-input>
+            </ion-item>
+        </div>
+        <div>
+            <ion-item>
+                <ion-label style="text-align: center; font-weight: bold;">Instrucciones</ion-label>
+            </ion-item>
+        </div>
+        <ion-grid *ngFor="let instruction of instructions | async">
+          <ion-row *ngFor="let inst of instruction.instructions">
+            <ion-col size="1" style="text-align: center">
+               <ion-label><b>{{inst.substring(0,2)}}</b></ion-label> 
+            </ion-col>
+            <ion-col style="text-align: justify">
+               <ion-label>{{inst.substring(3, inst.length)}}</ion-label> 
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+
+      <div *ngIf="visible > 0 && visible <= totalJAR">
+        <div >
+            <ion-grid>
+                <ion-row>
+                  <ion-col size="12" style="text-align: center">
+                    <ion-label>Tomando en cuenta únicamente el <b><u>{{pareadaTest.tipojar[count].attribute | uppercase}} {{pareadaTest.diminutivo | uppercase}}</u></b>, usted diría que:</ion-label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+              <ion-grid>
+                <ion-row>
+                  <ion-col  style="text-align: center">
+                    <ion-label class="ion-text-wrap">La muestra </ion-label>
+                    <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]=" pareadaTest.sample1.toLowerCase() " name="square"></ion-icon>
+                    <ion-label class="ion-text-wrap"> es  </ion-label>
+                  </ion-col>
+                  <ion-col [ngClass]="resColor[count].color">
+                    <ion-label class="ion-text-wrap">{{ optionSelected[count].selected | uppercase }}</ion-label>
+                  </ion-col>
+                  <ion-col  style="text-align: center">
+                    <ion-label class="ion-text-wrap">  que la muestra</ion-label>
+                    <ion-icon style="height: 40px; width: 40px; vertical-align: middle"  [color]="pareadaTest.sample2.toLowerCase()" name="square"></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+                <ion-grid>
+                  <ion-segment [(ngModel)]="jars[count].point">
+                    <ion-row >
+                      <ion-col class="jar1" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12" >
+                          <ion-segment-button value="-2"
+                                              (ionSelect)="showSelected(pareadaTest.tipojar[count].scales.jar1, 1)"
+                                              (click)="openPositiveNegative(pareadaTest.tipojar[count].scales.jar1, 1)">
+                              <ion-label class="ion-text-wrap">{{pareadaTest.tipojar[count].scales.jar1}}</ion-label>
+                          </ion-segment-button>
+                      </ion-col>
+                      <ion-col class="jar2" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+                          <ion-segment-button value="-1"
+                          (ionSelect)="showSelected(pareadaTest.tipojar[count].scales.jar2, 2)"
+                          (click)="openPositiveNegative(pareadaTest.tipojar[count].scales.jar1, 1)">
+                              <ion-label  class="ion-text-wrap">{{pareadaTest.tipojar[count].scales.jar2}}</ion-label>
+                          </ion-segment-button>
+                      </ion-col>
+                      <ion-col class="jar3" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12" >
+                          <ion-segment-button value="0"
+                          (ionSelect)="showSelected(pareadaTest.tipojar[count].scales.jar3, 3)" >
+                              <ion-label  class="ion-text-wrap">{{pareadaTest.tipojar[count].scales.jar3}}</ion-label>
+                            </ion-segment-button>
+                      </ion-col>
+                      <ion-col class="jar2" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+                          <ion-segment-button value="1"
+                          (ionSelect)="showSelected(pareadaTest.tipojar[count].scales.jar4, 4)" 
+                          (click)="openPositiveNegative(pareadaTest.tipojar[count].scales.jar1, 1)">
+                              <ion-label  class="ion-text-wrap">{{pareadaTest.tipojar[count].scales.jar4}}</ion-label>
+                          </ion-segment-button>
+                      </ion-col>
+                      <ion-col class="jar1" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+                          <ion-segment-button value="2"
+                          (ionSelect)="showSelected(pareadaTest.tipojar[count].scales.jar5 , 5)" 
+                          (click)="openPositiveNegative(pareadaTest.tipojar[count].scales.jar1, 1)">
+                              <ion-label  class="ion-text-wrap">{{pareadaTest.tipojar[count].scales.jar5}}</ion-label>
+                          </ion-segment-button>
+                      </ion-col>
+                    </ion-row>
+                  </ion-segment>
+                </ion-grid>
+        </div>
+      </div>
+
+      <div *ngIf="visible == (totalJAR + 1)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" style="text-align: center">
+              <ion-label class="ion-text-wrap">
+                Si usted percibe algún <b><u>SABOR O SENSACIÓN EXTRAÑA</u></b> seleccione:
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-label class="ion-text-wrap">Muestra </ion-label>
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="pareadaTest.sample1.toLowerCase()" name="square"></ion-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="sensation" 
+                    *ngFor="let option1 of answer.strange1">
+              <ion-item>
+              <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
+              <ion-checkbox color="ow"  (ionChange)="strangeSample1Click(option1)" [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="sensation">
+              
+              <ion-input type="text"
+              [disabled]="!otrossample1"
+              [(ngModel)]="answer.otrosSample1"
+              placeholder="Escriba aquí"></ion-input>
+            
+          </ion-col>
+          </ion-row>
+          <br>
+          <ion-row>
+              <ion-col>
+                <ion-label class="ion-text-wrap">Muestra </ion-label>
+                <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="pareadaTest.sample2.toLowerCase()" name="square"></ion-icon>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="sensation" 
+                      *ngFor="let option2 of answer.strange2">
+                <ion-item>
+                <ion-label class="ion-text-wrap">{{ option2.val }}</ion-label>
+                <ion-checkbox color="ow"  (ionChange)="strangeSample2Click(option2)" [(ngModel)]="option2.isChecked" slot="start"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              
+              <ion-col class="sensation">
+                
+                <ion-input type="text"
+                [disabled]="!otrossample2"
+                [(ngModel)]="answer.otrosSample2"
+                placeholder="Escriba aquí"></ion-input>
+              
+            </ion-col>
+            </ion-row>
+        </ion-grid>
+      </div>
+
+      <div *ngIf="visible == (totalJAR + 2)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" style="text-align: center">
+              <ion-label class="ion-text-wrap">
+                  <b>Evaluación general:</b> Considerando todos los atributos de este producto (color, sabor, aroma, textura, etc.),
+                  ¿Qué calificación le daría en la siguiente escala de calidad?                  
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col>
+                <ion-label class="ion-text-wrap">Muestra </ion-label>
+                <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="pareadaTest.sample1.toLowerCase()" name="square"></ion-icon>
+              </ion-col>
+            </ion-row>
+            <ion-segment [(ngModel)]="answer.generalSample1">
+          <ion-row>
+              
+              <ion-col class="general" size="2.2"
+              *ngFor="let general of pareadaTest.general.scales; index as i">
+                  <ion-segment-button value="{{i + 1}}"
+                                      (ionSelect)="generalSelected1(i + 1)">
+                      <ion-label class="ion-text-wrap">{{general}}</ion-label>
+                    </ion-segment-button>
+              </ion-col>
+            
+          </ion-row>
+          <br><br>
+        </ion-segment>
+          <ion-row>
+              <ion-col>
+                  <ion-label class="ion-text-wrap">Muestra </ion-label>
+                  <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="pareadaTest.sample2.toLowerCase()" name="square"></ion-icon>
+                </ion-col>
+          </ion-row>
+          <ion-segment [(ngModel)]="answer.generalSample2">
+          <ion-row>
+              
+                <ion-col class="general" size="2.2"
+                *ngFor="let general of pareadaTest.general.scales; index as i">
+                    <ion-segment-button value="{{i + 1}}"
+                                        (ionSelect)="generalSelected2(i + 1)">
+                        <ion-label  class="ion-text-wrap">{{general}}</ion-label>
+                      </ion-segment-button>
+                </ion-col>
+              
+            </ion-row>
+          </ion-segment>
+        </ion-grid>
+      </div>
+
+      <div *ngIf="visible == (totalJAR + 3)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" style="text-align: center">
+              <ion-label class="ion-text-wrap">
+                  ¿Encuentra usted <b>ALGÚN</b> atributo <b>ADICIONAL</b> a los evaluados, en que se  
+              </ion-label>
+              <ion-label color="gw" class="ion-text-wrap">
+                  ASEMEJEN
+              </ion-label>
+              <ion-label class="ion-text-wrap">
+                  las muestras?
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="asemejan">
+                
+                    <ion-input
+                    type="text"
+                    [(ngModel)]="answer.semejante1"
+                    (ionChange)="validInput()"
+                    placeholder="Escriba aquí"></ion-input>
+                 
+            </ion-col>
+            <ion-col class="asemejan">
+                
+                    <ion-input
+                    type="text"
+                    [(ngModel)]="answer.semejante2"
+                    (ionChange)="validInput()"
+                    placeholder="Escriba aquí"></ion-input>
+                  
+            </ion-col>
+            <ion-col class="asemejan">
+               
+                    <ion-input
+                    type="text"
+                    [(ngModel)]="answer.semejante3"
+                    (ionChange)="validInput()"
+                    placeholder="Escriba aquí"></ion-input>
+                  
+            </ion-col>
+            <ion-col class="asemejan">
+                
+                    <ion-input
+                    type="text"
+                    [(ngModel)]="answer.semejante4"
+                    (ionChange)="validInput()"
+                    placeholder="Escriba aquí"></ion-input>
+                  
+            </ion-col>
+          </ion-row>
+
+          <br>
+
+          <ion-row>
+              <ion-col size="12" style="text-align: center">
+                  <ion-label class="ion-text-wrap">
+                      ¿Encuentra usted <b>ALGÚN</b> atributo <b>ADICIONAL</b> a los evaluados, en que se  
+                  </ion-label>
+                  <ion-label color="rw" class="ion-text-wrap">
+                      DIFERENCIEN
+                  </ion-label>
+                  <ion-label class="ion-text-wrap">
+                      las muestras?
+                  </ion-label>
+                </ion-col>
+          </ion-row>
+          <ion-row>
+              <ion-col class="diferencian">
+                
+                      <ion-input
+                      type="text"
+                      [(ngModel)]="answer.diferencia1"
+                      (ionChange)="validInput()"
+                      placeholder="Escriba aquí"></ion-input>
+                    
+              </ion-col>
+              <ion-col class="diferencian">
+                 
+                      <ion-input
+                      type="text"
+                      [(ngModel)]="answer.diferencia2"
+                      (ionChange)="validInput()"
+                      placeholder="Escriba aquí"></ion-input>
+                    
+              </ion-col>
+              <ion-col class="diferencian">
+                 
+                      <ion-input
+                      type="text"
+                      [(ngModel)]="answer.diferencia3"
+                      (ionChange)="validInput()"
+                      placeholder="Escriba aquí"></ion-input>
+                   
+              </ion-col>
+              <ion-col class="diferencian">
+                  
+                      <ion-input
+                      type="text"
+                      [(ngModel)]="answer.diferencia4"
+                      (ionChange)="validInput()"
+                      placeholder="Escriba aquí"></ion-input>
+                    
+              </ion-col>
+            </ion-row>
+        </ion-grid>
+      </div>
+
+      <div *ngIf="visible == (totalJAR + 4)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" style="text-align: center">
+                <ion-button (click)="save()"  size="large" color="pw">Guardar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+</ion-content>

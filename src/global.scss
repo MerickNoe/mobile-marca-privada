@@ -1,0 +1,234 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+.my-custom-modal .modal-wrapper {
+    height: 100%;
+      width: 100%; 
+    }
+
+ .positive-negative .modal-wrapper {
+      height: 50%;
+      width: 95%; 
+  }
+
+
+    .jar1 {
+
+      border-radius: 5px !important;
+      border: 1px solid #ff004f !important;
+      margin-left: 1% !important;
+      margin-top: 2% !important;
+      
+
+    ion-segment-button {
+        --background-checked: #ff004f !important;
+        --color: black !important;
+        --color-checked: white !important;
+         height: 100% !important;
+         font-size: 9px !important;
+    }
+
+
+    
+}
+.jar2 {
+
+
+      border-radius: 5px !important;
+      border: 1px solid #ffa312 !important;
+      margin-left: 1% !important;
+      margin-top: 2% !important;
+      
+
+      ion-segment-button {
+        --background-checked: #ffa312 !important;
+        --color: black !important;
+        --color-checked: white !important;
+        height: 100% !important;
+        font-size: 9px !important;
+    }
+
+
+}
+.jar3 {
+
+      border-radius: 5px !important;
+      border: 1px solid #3e93cf !important;
+      margin-left: 1% !important;
+      margin-top: 2% !important;
+      
+
+      ion-segment-button {
+        --background-checked: #3e93cf !important;
+        --color: black !important;
+        --color-checked: white !important;
+        height: 100% !important;
+        font-size: 9px !important;
+    }
+
+
+}
+
+
+    .res {
+        border-radius: 5px !important;
+        border: 1px solid #86888f !important;
+    }
+
+    
+    .res1 {
+        border-radius: 5px !important;
+        border: 1px solid #ff004f !important;
+        background-color: #ff004f !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 1%;
+    }
+
+    .res2 {
+        border-radius: 5px !important;
+        border: 1px solid #ffa312 !important;
+        background-color: #ffa312 !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 1%;
+    }
+
+    .res3 {
+        border-radius: 5px !important;
+        border: 1px solid #3e93cf !important;
+        background-color: #3e93cf !important;
+        color: white !important;
+        text-align: center !important;
+        padding: 1%;
+    }
+
+
+    .positive {
+        border-radius: 5px !important;
+        border: 1px solid #62cf58 !important;
+        margin-left: 1% !important;
+        margin-top: 2% !important;
+        
+  
+        ion-segment-button {
+          --background-checked: #62cf58 !important;
+          --color: black !important;
+          --color-checked: white !important;
+          height: 100% !important;
+
+          
+      }
+    }
+
+    .negative {
+        border-radius: 5px !important;
+        border: 1px solid #d1030a !important;
+        margin-left: 1% !important;
+        margin-top: 2% !important;
+        
+  
+        ion-segment-button {
+          --background-checked: #d1030a !important;
+          --color: black !important;
+          --color-checked: white !important;
+          height: 100% !important;
+          
+      }
+    }
+
+    .sensation {
+
+
+        border-radius: 5px !important;
+        border: 1px solid #ffa312 !important;
+        margin-left: 1% !important;
+        margin-top: 2% !important;  
+  }
+
+  .general {
+
+    border-radius: 5px !important;
+    border: 1px solid #62cf58 !important;
+    margin-left: 1% !important;
+    margin-top: 2% !important;
+
+    ion-segment-button {
+      --background-checked: #62cf58 !important;
+      --color: black !important;
+      --color-checked: white !important;
+      height: 100% !important;
+      word-break: break-word !important;
+      font-size: 9px !important;
+      
+  }
+}
+
+
+
+
+.asemejan {
+    border-radius: 5px !important;
+    border: 1px solid #62cf58 !important;
+    margin-left: 1% !important;
+    margin-top: 2% !important;
+}
+
+.diferencian {
+    border-radius: 5px !important;
+    border: 1px solid #d1030a !important;
+    margin-left: 1% !important;
+    margin-top: 2% !important;
+}
+
+.si {
+    border-radius: 5px !important;
+    border: 1px solid #62cf58 !important;
+    margin-left: 1% !important;
+    margin-top: 2% !important;
+
+        --background-checked: #62cf58 !important;
+        --color: black !important;
+        --color-checked: white !important;
+        height: 100% !important;
+
+}
+
+.no {
+    border-radius: 5px !important;
+    border: 1px solid #d1030a !important;
+    margin-left: 1% !important;
+    margin-top: 2% !important;
+
+        --background-checked: #d1030a !important;
+        --color: black !important;
+        --color-checked: white !important;
+        height: 100% !important;
+
+}
+

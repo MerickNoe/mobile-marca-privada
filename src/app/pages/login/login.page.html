@@ -1,0 +1,47 @@
+<ion-content class="ion-padding">
+
+    <ion-grid >
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" size-sm="5" size-md="5" size-lg="5" size-sx="12">
+                      <img src="../../../assets/sensWMapp.png" alt="logo">
+          </ion-col>
+          <ion-col size="12">
+              <ion-item>
+                  <ion-icon name="person"
+                            slot="start"
+                            color="primary">
+                  </ion-icon>
+          
+                  <ion-input type="email"
+                             placeholder="Usuario"
+                             [required]=true
+                             [(ngModel)]="user.email">
+                  </ion-input>
+              </ion-item>
+              <ion-item>
+                  <ion-icon name="lock"
+                            slot="start"
+                            color="primary">
+                  </ion-icon>
+          
+                  <ion-input type="password"
+                             placeholder="Pasword"
+                             [required]=true
+                             [(ngModel)]="user.password">
+                  </ion-input>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+              <ion-button size="large" 
+              expand="full"
+              [disabled]="!user.email || !user.password"
+              (click)="onLogIn()">
+              LOGIN
+          </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+</ion-content>
