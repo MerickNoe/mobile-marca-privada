@@ -8,7 +8,7 @@ import { IntructionService } from 'src/app/services/intruction.service';
 import { ResColor } from '../../entities/pareada.interface';
 import { PositiveNegativePage } from '../positive-negative/positive-negative.page';
 import { PareadaService } from '../../services/pareada.service';
-import { formatDate } from '@angular/common';
+import {  DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pareada-answer',
@@ -20,7 +20,6 @@ export class PareadaAnswerPage implements OnInit {
   @Input() pareadaTest: PareadaTest;
 
   today = new Date();
-  now = '';
 
   totalJAR = 0;
   visible = 0;
@@ -68,9 +67,9 @@ export class PareadaAnswerPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private instructionService: IntructionService,
-    private pareadaService: PareadaService
+    private pareadaService: PareadaService,
+    private datePipe: DatePipe
   ) {
-    this.now = formatDate(this.today, 'dd-MM-yyyy', 'en-US');
    }
 
   ngOnInit() {
@@ -78,7 +77,7 @@ export class PareadaAnswerPage implements OnInit {
     this.getInstructions();
     this.addJars();
     this.getSensation();
-    this.answer.date = this.now;
+    this.answer.date = this.datePipe.transform(this.today, 'dd-MM-yyyy');
     this.answer.test = this.pareadaTest.id;
     this.disableNext();
   }
@@ -235,27 +234,44 @@ export class PareadaAnswerPage implements OnInit {
 
  strangeSample1Click(option: StrangeModel) {
 
-  if (option.val === 'Otros') {
-    if (option.isChecked === true) {
-      this.otrossample1 = true;
-    } else {
-      this.otrossample1 = false;
-      this.answer.otrosSample1 = '';
-    }
+  switch (option.val) {
+
+    case 'Otros':
+        this.answer.strange1[8].isChecked = false;
+        if (option.isChecked === true) {
+          this.otrossample1 = true;
+        } else {
+          this.otrossample1 = false;
+          this.answer.otrosSample1 = '';
+        }
+        break;
+        default:
+            this.answer.strange1[8].isChecked = false;
+            break;
+
   }
 
   this.checkStranges();
+
  }
+
+
 
  strangeSample2Click(option: StrangeModel) {
 
-  if (option.val === 'Otros') {
-    if (option.isChecked === true) {
-      this.otrossample2 = true;
-    } else {
-      this.otrossample2 = false;
-      this.answer.otrosSample2 = '';
-    }
+  switch (option.val) {
+    case 'Otros':
+        this.answer.strange2[8].isChecked = false;
+        if (option.isChecked === true) {
+          this.otrossample2 = true;
+        } else {
+          this.otrossample2 = false;
+          this.answer.otrosSample2 = '';
+        }
+        break;
+    default:
+      this.answer.strange2[8].isChecked = false;
+      break;
   }
 
   this.checkStranges();
@@ -279,7 +295,7 @@ export class PareadaAnswerPage implements OnInit {
         this.buttons.push(false);
     }
 
-    this.buttons.push(false);
+    this.buttons.push(true);
 
 
   }
@@ -290,22 +306,39 @@ export class PareadaAnswerPage implements OnInit {
     this.answer.strange1.forEach(str1 => {
       if (!result1) {
         if ( str1.isChecked === true) {
-          result1 = true;
+            result1 = true;
       }  else {
         result1 = false;
       }
       }
     });
+
+    if (this.otrossample1) {
+      if (this.answer.otrosSample1.trim()) {
+        result1 = true;
+      } else {
+        result1 = false;
+      }
+    }
+
     this.answer.strange2.forEach(str2 => {
       if (!result2) {
         if (str2.isChecked === true) {
-          result2 = true;
+            result2 = true;
        } else {
          result2 = false;
        }
       }
 
     });
+
+    if (this.otrossample2) {
+      if (this.answer.otrosSample2.trim()) {
+        result2 = true;
+      } else {
+        result2 = false;
+      }
+    }
 
     if (result1 && result2) {
       this.buttons[this.visible] = true;
@@ -335,19 +368,45 @@ export class PareadaAnswerPage implements OnInit {
     }
   }
 
-  validInput() {
-    if ((this.answer.semejante1.trim() ||
-        this.answer.semejante2.trim() ||
-        this.answer.semejante3.trim() ||
-        this.answer.semejante4.trim()) &&
-        (this.answer.diferencia1.trim() ||
-        this.answer.diferencia2.trim() ||
-        this.answer.diferencia3.trim() ||
-        this.answer.diferencia4.trim())) {
-          this.buttons[this.visible] = true;
-        } else {
-          this.buttons[this.visible] = false;
-        }
+
+
+
+  ninguno1(option: StrangeModel) {
+
+    if (option.isChecked === true) {
+      this.answer.strange1[0].isChecked = false;
+      this.answer.strange1[1].isChecked = false;
+      this.answer.strange1[2].isChecked = false;
+      this.answer.strange1[3].isChecked = false;
+      this.answer.strange1[4].isChecked = false;
+      this.answer.strange1[5].isChecked = false;
+      this.answer.strange1[6].isChecked = false;
+      this.answer.strange1[7].isChecked = false;
+      this.answer.strange1[9].isChecked = false;
+    } else {
+      this.answer.strange1[8].isChecked = false;
+    }
+
+    this.checkStranges();
+
+  }
+
+  ninguno2(option: StrangeModel) {
+    if (option.isChecked === true) {
+      this.answer.strange2[0].isChecked = false;
+      this.answer.strange2[1].isChecked = false;
+      this.answer.strange2[2].isChecked = false;
+      this.answer.strange2[3].isChecked = false;
+      this.answer.strange2[4].isChecked = false;
+      this.answer.strange2[5].isChecked = false;
+      this.answer.strange2[6].isChecked = false;
+      this.answer.strange2[7].isChecked = false;
+      this.answer.strange2[9].isChecked = false;
+    } else {
+      this.answer.strange2[8].isChecked = false;
+    }
+
+    this.checkStranges();
   }
 
 }

@@ -16,6 +16,13 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { PareadaAnswerPageModule } from './pages/pareada-answer/pareada-answer.module';
 import { PositiveNegativePageModule } from './pages/positive-negative/positive-negative.module';
 import { JarmixAnswerPageModule } from './pages/jarmix-answer/jarmix-answer.module';
+import { HedonicaAnswerPageModule } from './pages/hedonica-answer/hedonica-answer.module';
+import { HedonicaAcceptancePageModule } from './pages/hedonica-acceptance/hedonica-acceptance.module';
+import { DodAnswerPageModule } from './pages/dod-answer/dod-answer.module';
+import { PositiveNegativeDODPageModule } from './pages/positive-negative-dod/positive-negative-dod.module';
+import { DuotrioAnswerPageModule } from './pages/duotrio-answer/duotrio-answer.module';
+import { ChildrenAnswerPageModule } from './pages/children-answer/children-answer.module';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -30,11 +37,18 @@ import { JarmixAnswerPageModule } from './pages/jarmix-answer/jarmix-answer.modu
     AngularFireAuthModule,
     PareadaAnswerPageModule,
     PositiveNegativePageModule,
-    JarmixAnswerPageModule
+    JarmixAnswerPageModule,
+    HedonicaAnswerPageModule,
+    HedonicaAcceptancePageModule,
+    DodAnswerPageModule,
+    PositiveNegativeDODPageModule,
+    DuotrioAnswerPageModule,
+    ChildrenAnswerPageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    DatePipe,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

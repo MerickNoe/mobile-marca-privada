@@ -8,17 +8,17 @@ export const Tests: Test[] = [
     {
         name: 'Aceptación (Hedónica)',
         color: 'ow',
-        url: '/home'
+        url: '/hedonica-list'
     },
     {
         name: 'Agrado con niños',
         color: 'cw',
-        url: '/home'
+        url: '/children-list'
     },
     {
         name: 'Power Dúo Trío*',
         color: 'gw',
-        url: '/home'
+        url: '/duotrio-list'
     },
     {
         name: 'JAR',
@@ -28,6 +28,6 @@ export const Tests: Test[] = [
     {
         name: 'DOD',
         color: 'pw',
-        url: '/home'
+        url: '/dod-list'
     }
 ];

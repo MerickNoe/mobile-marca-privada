@@ -1,0 +1,40 @@
+<ion-content class="ion-padding">
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-label class="ion-text-wrap">
+        La diferencia es:
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-segment [(ngModel)]="optionSelected">
+        <div class="positive">
+            <ion-segment-button  value="1" (click)="dismiss(1)">
+                <ion-label>+</ion-label>
+              </ion-segment-button>
+        </div>
+        <div class="jar3">
+            <ion-segment-button  value="0" (click)="dismiss(0)">
+                <ion-label>
+                  Indiferente
+                </ion-label>
+              </ion-segment-button>
+        </div>
+        <div class="negative">
+            <ion-segment-button  value="-1" (click)="dismiss(-1)">
+                <ion-label>-</ion-label>
+              </ion-segment-button>
+        </div>
+      </ion-segment>
+    </ion-col>
+    <ion-col>
+      <ion-label class="ion-text-wrap">
+        a la muestra
+      </ion-label>
+    </ion-col>
+    <ion-col>
+      <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="sample.toLowerCase()"  name="square"></ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

@@ -1,0 +1,21 @@
+
+<ion-content class="ion-padding">
+    <ion-grid>
+        <ion-row>
+        <ion-segment [(ngModel)]="selected">
+          <ion-col class="jar2" size='3'>
+               <ion-segment-button value="-1"
+                                   (click)="dismiss(-1)">
+                  <ion-label>{{ left }}</ion-label>
+                </ion-segment-button>
+          </ion-col>
+          <ion-col class="jar2" size='3'>
+                <ion-segment-button value="1"
+                                    (click)="dismiss(1)">
+                  <ion-label class="ion-text-wrap">{{ rigth }}</ion-label>
+                </ion-segment-button>
+          </ion-col>
+        </ion-segment>
+        </ion-row>
+</ion-grid>
+</ion-content>

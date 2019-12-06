@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyCK-4Wj7rkBtBVtxaSHulez-yjQ5JHQZLw',
-    authDomain: 'marca-privada-test.firebaseapp.com',
-    databaseURL: 'https://marca-privada-test.firebaseio.com',
-    projectId: 'marca-privada-test',
-    storageBucket: 'marca-privada-test.appspot.com',
-    messagingSenderId: '191429084071',
-    appId: '1:191429084071:web:ed30b3f51a8a1b4a'
+    apiKey: 'AIzaSyC07puqKIfxAYn7MVldD9dFeORks0Qlfqw',
+    authDomain: 'marca-privada.firebaseapp.com',
+    databaseURL: 'https://marca-privada.firebaseio.com',
+    projectId: 'marca-privada',
+    storageBucket: 'marca-privada.appspot.com',
+    messagingSenderId: '896823089044',
+    appId: '1:896823089044:web:964b7d8f9b37ee4da42181'
   }
 
 };

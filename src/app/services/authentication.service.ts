@@ -7,23 +7,36 @@ import { User } from '../entities/user.class';
 })
 export class AuthenticationService {
 
+  private isLoggedIn = false;
+
   constructor(
     private afAuth: AngularFireAuth
   ) { }
 
 
-   logIn(user: User) {
+ async  logIn(user: User) {
+   const result = await
+   this.afAuth.auth.
+   signInWithEmailAndPassword(user.email, user.password);
 
-      return this.afAuth.auth.
-      signInWithEmailAndPassword(user.email, user.password);
+   if (result.user) {
+     this.isLoggedIn = true;
+   }
+
+   return result;
 
   }
 
   logOut() {
 
     if ( this.afAuth.auth.currentUser ) {
-          return this.afAuth.auth.signOut();
+      this.isLoggedIn = false;
+      return this.afAuth.auth.signOut();
     }
+  }
+
+  authenticated(): boolean {
+    return this.isLoggedIn;
   }
 
 }

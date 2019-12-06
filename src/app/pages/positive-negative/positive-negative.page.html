@@ -6,7 +6,7 @@
             <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="sample1.toLowerCase()" name="square"></ion-icon>
             <ion-label class="ion-text-wrap"> es  </ion-label>
           </ion-col>
-          <ion-col [ngClass]="classSelected">
+          <ion-col [ngClass]="classSelected" style="text-align: center">
             <ion-label class="ion-text-wrap">{{ selected | uppercase }}</ion-label>
           </ion-col>
           <ion-col  style="text-align: center">
@@ -22,19 +22,19 @@
               <ion-segment [(ngModel)]="optionSelected">
                 <ion-col class="positive">
                      <ion-segment-button value="1"
-                                         (ionSelect)="dismiss(1)">
+                                         (click)="dismiss(1)">
                         <ion-label>+</ion-label>
                       </ion-segment-button>
                 </ion-col>
                 <ion-col class="jar3">
                       <ion-segment-button value="0"
-                                          (ionSelect)="dismiss(0)">
+                                          (click)="dismiss(0)">
                         <ion-label class="ion-text-wrap">Indiferente</ion-label>
                       </ion-segment-button>
                 </ion-col>
                 <ion-col class="negative">
                       <ion-segment-button value="-1"
-                                          (ionSelect)="dismiss(-1)">
+                                          (click)="dismiss(-1)">
                         <ion-label>-</ion-label>
                       </ion-segment-button>
                 </ion-col>

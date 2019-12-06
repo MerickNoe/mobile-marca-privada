@@ -1,0 +1,465 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+          <ion-icon color="danger" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title>{{ dodTest.product }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button [disabled]="visible == 0 " (click)="back()"  color="pw" >
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      
+        <ion-buttons  slot="end">
+            <ion-button [disabled]="!answer.name.trim() || buttons[visible] == false || visible === ((totalScales * 4) + 5)" (click)="next()"  color="pw" >
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <div *ngIf="visible == 0">
+
+        <div>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12" style="text-align: center; font-weight: bold ">
+                  <ion-label class="ion-text-wrap">
+                      <b>Prueba Grado de Diferencia (DOD)</b>
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            </div>
+      <div>
+          <ion-item>
+              <ion-label style="font-weight: bold">Nombre:</ion-label>
+              <ion-input
+              type="text"
+              placeholder="Escriba su nombre"
+              [(ngModel)]="answer.name">
+              </ion-input>
+          </ion-item>
+      </div>
+      <div>
+          <ion-item>
+              <ion-label style="text-align: center; font-weight: bold;">Instrucciones</ion-label>
+          </ion-item>
+      </div>
+      <ion-grid *ngFor="let instruction of instructions | async">
+        <ion-row *ngFor="let inst of instruction.instructions">
+          <ion-col size="1" style="text-align: center">
+             <ion-label><b>{{inst.substring(0,1)}}</b></ion-label> 
+          </ion-col>
+          <ion-col style="text-align: justify">
+             <ion-label>{{inst.substring(2, inst.length)}}</ion-label> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!--  segmento 1 -->
+
+    <div *ngIf="visible > 0 && visible <= totalScales">
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+                Par de muestras no. <b>1</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col style="text-align: center">
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set1.sampleActual1.toLowerCase()" name="square"></ion-icon>
+              <b>vs</b>
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set1.sampleActual2.toLowerCase()" name="square"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+             <b> {{ answer.set1.scales[count].attribute }} </b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>        
+        <ion-segment [(ngModel)]="answer.set1.scales[count].point">
+        <ion-row class="ion-align-items-center">
+          
+          <ion-col class="jar1" size="12" size-lg="2.8" size-md="2.8" size-sm="2.8"size-sx="12"
+          *ngFor="let scale of dodTest.set1.scales[count].scales; index as i">
+          <ion-segment-button value="{{i}}" (click)="openPositiveNegativeSet1()" (ionSelect)="enableNext()">
+              <ion-label class="ion-text-wrap">
+                  {{ scale }}
+                </ion-label>
+          </ion-segment-button>
+          </ion-col>
+        
+        </ion-row>
+      </ion-segment>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="visible == (totalScales + 1)">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                <ion-label class="ion-text-wrap">
+                    <b>Evaluación general:</b> Considerando todos los atributos de este producto (color, sabor, aroma, textura, etc.),
+                    ¿Qué calificación le daría en la siguiente escala de calidad?                  
+                </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                  <ion-label class="ion-text-wrap">Muestra </ion-label>
+                  <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set1.sampleActual1.toLowerCase()" name="square"></ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-segment [(ngModel)]="answer.set1.general1">
+            <ion-row>
+                
+                <ion-col class="general" size="2.2"
+                *ngFor="let general of dodTest.general; index as i">
+                    <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected1set1()">
+                        <ion-label class="ion-text-wrap">{{general}}</ion-label>
+                      </ion-segment-button>
+                </ion-col>
+              
+            </ion-row>
+            <br><br>
+          </ion-segment>
+            <ion-row>
+                <ion-col>
+                    <ion-label class="ion-text-wrap">Muestra </ion-label>
+                    <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set1.sampleActual2.toLowerCase()" name="square"></ion-icon>
+                  </ion-col>
+            </ion-row>
+            <ion-segment [(ngModel)]="answer.set1.general2">
+            <ion-row>
+                
+                  <ion-col class="general" size="2.2"
+                  *ngFor="let general of dodTest.general; index as i">
+                      <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected2set1()">
+                          <ion-label  class="ion-text-wrap">{{general}}</ion-label>
+                        </ion-segment-button>
+                  </ion-col>
+                
+              </ion-row>
+            </ion-segment>
+          </ion-grid>
+    </div>
+
+    <!--  segmento 2 -->
+
+    <div *ngIf="visible >= (totalScales + 2) && visible <= ((totalScales * 2) + 1)">
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+                Par de muestras no. <b>2</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col style="text-align: center">
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set2.sampleActual.toLowerCase()" name="square"></ion-icon>
+              <b>vs</b>
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set2.samplePropuesta1.toLowerCase()" name="square"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+             <b> {{ answer.set2.scales[count].attribute }} </b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>        
+        <ion-segment [(ngModel)]="answer.set2.scales[count].point">
+        <ion-row class="ion-align-items-center">
+          
+          <ion-col class="jar1" size="12" size-lg="2.8" size-md="2.8" size-sm="2.8"size-sx="12"
+          *ngFor="let scale of dodTest.set2.scales[count].scales; index as i">
+          <ion-segment-button value="{{i}}" (click)="openPositiveNegativeSet2()" (ionSelect)="enableNext()">
+              <ion-label class="ion-text-wrap">
+                  {{ scale }}
+                </ion-label>
+          </ion-segment-button>
+          </ion-col>
+        
+        </ion-row>
+      </ion-segment>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="visible == ((totalScales * 2) + 2)">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                <ion-label class="ion-text-wrap">
+                    <b>Evaluación general:</b> Considerando todos los atributos de este producto (color, sabor, aroma, textura, etc.),
+                    ¿Qué calificación le daría en la siguiente escala de calidad?                  
+                </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                  <ion-label class="ion-text-wrap">Muestra </ion-label>
+                  <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set2.sampleActual.toLowerCase()" name="square"></ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-segment [(ngModel)]="answer.set2.general1">
+            <ion-row>
+                
+                <ion-col class="general" size="2.2"
+                *ngFor="let general of dodTest.general; index as i">
+                    <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected1set2()">
+                        <ion-label class="ion-text-wrap">{{general}}</ion-label>
+                      </ion-segment-button>
+                </ion-col>
+              
+            </ion-row>
+            <br><br>
+          </ion-segment>
+            <ion-row>
+                <ion-col>
+                    <ion-label class="ion-text-wrap">Muestra </ion-label>
+                    <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set2.samplePropuesta1.toLowerCase()" name="square"></ion-icon>
+                  </ion-col>
+            </ion-row>
+            <ion-segment [(ngModel)]="answer.set2.general2">
+            <ion-row>
+                
+                  <ion-col class="general" size="2.2"
+                  *ngFor="let general of dodTest.general; index as i">
+                      <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected2set2()">
+                          <ion-label  class="ion-text-wrap">{{general}}</ion-label>
+                        </ion-segment-button>
+                  </ion-col>
+                
+              </ion-row>
+            </ion-segment>
+          </ion-grid>
+    </div>
+
+    <!--  segmento 3 -->
+
+    <div *ngIf="visible >= ((totalScales * 2) + 3) && visible <= ((totalScales * 3) + 2)">
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+                Par de muestras no. <b>3</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col style="text-align: center">
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set3.sampleActual.toLowerCase()" name="square"></ion-icon>
+              <b>vs</b>
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set3.samplePropuesta2.toLowerCase()" name="square"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+             <b> {{ answer.set3.scales[count].attribute }} </b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>        
+        <ion-segment [(ngModel)]="answer.set3.scales[count].point">
+        <ion-row class="ion-align-items-center">
+          
+          <ion-col class="jar1" size="12" size-lg="2.8" size-md="2.8" size-sm="2.8"size-sx="12"
+          *ngFor="let scale of dodTest.set3.scales[count].scales; index as i">
+          <ion-segment-button value="{{i}}" (click)="openPositiveNegativeSet3()" (ionSelect)="enableNext()">
+              <ion-label class="ion-text-wrap">
+                  {{ scale }}
+                </ion-label>
+          </ion-segment-button>
+          </ion-col>
+        
+        </ion-row>
+      </ion-segment>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="visible === ((totalScales * 3) + 3)">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                <ion-label class="ion-text-wrap">
+                    <b>Evaluación general:</b> Considerando todos los atributos de este producto (color, sabor, aroma, textura, etc.),
+                    ¿Qué calificación le daría en la siguiente escala de calidad?                  
+                </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                  <ion-label class="ion-text-wrap">Muestra </ion-label>
+                  <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set3.sampleActual.toLowerCase()" name="square"></ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-segment [(ngModel)]="answer.set3.general1">
+            <ion-row>
+                
+                <ion-col class="general" size="2.2"
+                *ngFor="let general of dodTest.general; index as i">
+                    <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected1set3()">
+                        <ion-label class="ion-text-wrap">{{general}}</ion-label>
+                      </ion-segment-button>
+                </ion-col>
+              
+            </ion-row>
+            <br><br>
+          </ion-segment>
+            <ion-row>
+                <ion-col>
+                    <ion-label class="ion-text-wrap">Muestra </ion-label>
+                    <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set3.samplePropuesta2.toLowerCase()" name="square"></ion-icon>
+                  </ion-col>
+            </ion-row>
+            <ion-segment [(ngModel)]="answer.set3.general2">
+            <ion-row>
+                
+                  <ion-col class="general" size="2.2"
+                  *ngFor="let general of dodTest.general; index as i">
+                      <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected2set3()">
+                          <ion-label  class="ion-text-wrap">{{general}}</ion-label>
+                        </ion-segment-button>
+                  </ion-col>
+                
+              </ion-row>
+            </ion-segment>
+          </ion-grid>
+    </div>
+
+
+    <!--  segmento 4 -->
+
+    <div *ngIf="visible >= ((totalScales * 3) + 4) && visible <=  ((totalScales * 4) + 3)">
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+                Par de muestras no. <b>4</b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col style="text-align: center">
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set4.samplePropuesta1.toLowerCase()" name="square"></ion-icon>
+              <b>vs</b>
+              <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set4.samplePropuesta2.toLowerCase()" name="square"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="text-align: center">
+            <ion-label class="ion-text-wrap">
+             <b> {{ answer.set4.scales[count].attribute }} </b>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>        
+        <ion-segment [(ngModel)]="answer.set4.scales[count].point">
+        <ion-row class="ion-align-items-center">
+          
+          <ion-col class="jar1" size="12" size-lg="2.8" size-md="2.8" size-sm="2.8"size-sx="12"
+          *ngFor="let scale of dodTest.set4.scales[count].scales; index as i">
+          <ion-segment-button value="{{i}}" (click)="openPositiveNegativeSet4()" (ionSelect)="enableNext()">
+              <ion-label class="ion-text-wrap">
+                  {{ scale }}
+                </ion-label>
+          </ion-segment-button>
+          </ion-col>
+        
+        </ion-row>
+      </ion-segment>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="visible === ((totalScales * 4) + 4)">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                <ion-label class="ion-text-wrap">
+                    <b>Evaluación general:</b> Considerando todos los atributos de este producto (color, sabor, aroma, textura, etc.),
+                    ¿Qué calificación le daría en la siguiente escala de calidad?                  
+                </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                  <ion-label class="ion-text-wrap">Muestra </ion-label>
+                  <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set4.samplePropuesta1.toLowerCase()" name="square"></ion-icon>
+                </ion-col>
+              </ion-row>
+              <ion-segment [(ngModel)]="answer.set4.general1">
+            <ion-row>
+                
+                <ion-col class="general" size="2.2"
+                *ngFor="let general of dodTest.general; index as i">
+                    <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected1set4()">
+                        <ion-label class="ion-text-wrap">{{general}}</ion-label>
+                      </ion-segment-button>
+                </ion-col>
+              
+            </ion-row>
+            <br><br>
+          </ion-segment>
+            <ion-row>
+                <ion-col>
+                    <ion-label class="ion-text-wrap">Muestra </ion-label>
+                    <ion-icon style="height: 40px; width: 40px; vertical-align: middle" [color]="dodTest.set4.samplePropuesta2.toLowerCase()" name="square"></ion-icon>
+                  </ion-col>
+            </ion-row>
+            <ion-segment [(ngModel)]="answer.set4.general2">
+            <ion-row>
+                
+                  <ion-col class="general" size="2.2"
+                  *ngFor="let general of dodTest.general; index as i">
+                      <ion-segment-button value="{{i + 1}}" (ionSelect)="generalSelected2set4()">
+                          <ion-label  class="ion-text-wrap">{{general}}</ion-label>
+                        </ion-segment-button>
+                  </ion-col>
+                
+              </ion-row>
+            </ion-segment>
+          </ion-grid>
+    </div>
+
+    <div *ngIf="visible === ((totalScales * 4) + 5)">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                  <ion-button (click)="save()"  size="large" color="pw">Guardar</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+    </div>
+
+</ion-content>

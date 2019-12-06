@@ -57,4 +57,15 @@ export class LoginPage implements OnInit {
 
   }
 
+
+  validate() {
+    if (this.authService.authenticated()) {
+      this.router.navigateByUrl('/home');
+    }
+  }
+
+  ionViewWillEnter() {
+    this.validate();
+  }
+
 }

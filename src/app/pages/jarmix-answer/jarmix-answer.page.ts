@@ -4,7 +4,7 @@ import { Instrucion } from 'src/app/entities/intruction.interface';
 import { Router } from '@angular/router';
 import { JarmixService } from 'src/app/services/jarmix.service';
 import { ModalController } from '@ionic/angular';
-import { formatDate } from '@angular/common';
+import {  DatePipe } from '@angular/common';
 import { IntructionService } from '../../services/intruction.service';
 import { Observable } from 'rxjs';
 
@@ -39,7 +39,6 @@ export class JarmixAnswerPage implements OnInit {
   visible = 0;
   count = 0;
   today = new Date();
-  now = '';
 
 
   instructions: Observable<Instrucion[]>;
@@ -53,16 +52,16 @@ export class JarmixAnswerPage implements OnInit {
     private router: Router,
     private jarmixService: JarmixService,
     private modalController: ModalController,
-    private instructionService: IntructionService
+    private instructionService: IntructionService,
+    private datePipe: DatePipe
   ) {
-    this.now = formatDate(this.today, 'dd-MM-yyyy', 'en-US');
    }
 
 
 
   ngOnInit() {
     this.getTotalJar();
-    this.answer.date = this.now;
+    this.answer.date = this.datePipe.transform(this.today, 'dd-MM-yyyy');
     this.answer.test = this.jarMixTest.id;
     this.getInstructions();
     this.addJars();

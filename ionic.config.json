@@ -1,5 +1,7 @@
 {
   "name": "Marca_Privada_App",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

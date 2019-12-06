@@ -1,0 +1,251 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+          <ion-icon color="danger" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title>{{ hedonicaTest.product }} {{ hedonicaTest.sample1 }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button [disabled]="visible == 0 " (click)="back()"  color="pw" >
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      
+        <ion-buttons  slot="end">
+            <ion-button [disabled]="!answer.name.trim() || visible == (totalJAR + 5)" (click)="next()"  color="pw" >
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <div *ngIf="visible == 0">
+
+        <div>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12" style="text-align: center; font-weight: bold ">
+                  <ion-label class="ion-text-wrap">
+                      Prueba de evaluación de productos sin referencial: {{hedonicaTest.product}}
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="12" style="text-align: center; font-weight: bold">
+                  <ion-label class="ion-text-wrap">
+                     MUESTRA 1: {{hedonicaTest.sample1 | uppercase}}
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                      <ion-item>
+                          <ion-label style="font-weight: bold">Nombre:</ion-label>
+                          <ion-input
+                          type="text"
+                          placeholder="Escriba su nombre"
+                          [(ngModel)]="answer.name">
+                          </ion-input>
+                      </ion-item>
+                    </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col size="12" style="text-align: center; font-weight: bold">
+                    <ion-label class="ion-text-wrap">
+                        Instrucciones generales
+                    </ion-label>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="12" style="text-align: justify">
+                      <ion-label class="ion-text-wrap">
+                          a. Observe, huela y pruebe la muestra que se le presenta a continuación, la cual está codificada con
+                          etiqueta de color.
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                      <ion-col size="12" style="text-align: justify">
+                        <ion-label class="ion-text-wrap">
+                            b. De acuerdo al atributo en evaluación seleccione la calificación que mejor describa su percepción.
+                        </ion-label>
+                      </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col size="12" style="text-align: justify">
+                          <ion-label class="ion-text-wrap">
+                              c. Si su calificación es menor o igual a <b>{{ hedonicaTest.intensity }}</b>, indique si considera que está en menor o mayor
+                    intensidad.
+                          </ion-label>
+                        </ion-col>
+                      </ion-row>
+
+                      <ion-row>
+                          <ion-col size="12" style="text-align: justify">
+                            <ion-label class="ion-text-wrap">
+                                d. Al final del formulario califique de acuerdo a la escala de calidad la evaluación general del
+                                producto.
+                            </ion-label>
+                          </ion-col>
+                        </ion-row>
+            </ion-grid>
+            </div>
+    </div>
+
+    <div *ngIf="visible > 0 && visible <= totalJAR">
+      <div >
+          <ion-grid>
+              <ion-row>
+                <ion-col size="12" style="text-align: center">
+                  <ion-label><b>{{hedonicaTest.tipojar[count].attribute }} </b></ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+              <ion-grid>
+                <ion-segment [(ngModel)]="answer.hedonica[count].point">
+                  <ion-row >
+                      <ion-col class="general" size="2.2"
+                      *ngFor="let hedo of hedonicaTest.hedonica[count].scales; index as i">
+                          <ion-segment-button value="{{i + 1}}"(click)="limiteEstablecido(i)">
+                              <ion-label  class="ion-text-wrap">{{hedo}}</ion-label>
+                            </ion-segment-button>
+                      </ion-col>
+                  </ion-row>
+                </ion-segment>
+              </ion-grid>
+      </div>
+    </div>
+
+    <div *ngIf="visible == (totalJAR + 1)">
+      
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                <ion-label class="ion-text-wrap">
+                  Si usted percibe algún <b><u>SABOR O SENSACIÓN EXTRAÑA</u></b> seleccione:
+                </ion-label>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col class="sensation" 
+                      *ngFor="let option1 of answer.strange">
+                <ion-item>
+                <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
+                <ion-checkbox color="ow"  [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="sensation">
+                
+                <ion-input type="text"
+                placeholder="Escriba aquí"></ion-input>
+              
+            </ion-col>
+            </ion-row>
+
+          </ion-grid>
+       
+         
+    </div>
+
+    <div *ngIf="visible == (totalJAR + 2)">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+               <ion-label class="ion-text-wrap">
+                 <b>Evaluación general:</b> Considerando todos los aspectos de este producto (apariencia, color, sabor,
+                 aroma, textura, etc.)                 
+             </ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+             <ion-col size="12" style="text-align: center">
+              <ion-label class="ion-text-wrap">¿Qué calificación le daría? </ion-label>
+             </ion-col>
+           </ion-row>
+          </ion-grid>
+         
+             <ion-grid>
+                 <ion-segment [(ngModel)]="answer.general">
+                   <ion-row >
+                     <ion-col *ngFor="let general of hedonicaTest.general.scales; index as i"
+                     size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12" class="general">
+                         <ion-segment-button          
+                                             value="{{i + 1}}">
+                             <ion-label class="ion-text-wrap">
+                               {{general}}
+                             </ion-label>
+                           </ion-segment-button>
+                     </ion-col>
+                   </ion-row>
+             
+                 </ion-segment>
+              </ion-grid>
+    </div>
+
+    <div *ngIf="visible == (totalJAR + 3)">
+        <ion-grid>
+            <ion-row>
+             <ion-col size="12" style="text-align: center">
+              <ion-label class="ion-text-wrap">¿Por qué considera que el producto <b>SI</b> corresponde a la calidad seleccionada en la escala de la
+                <u>pregunta anterior?</u> </ion-label>
+             </ion-col>
+           </ion-row>
+           <ion-row>
+              <ion-col class="siCorresponde" 
+                      *ngFor="let option1 of answer.corresponde">
+                <ion-item>
+                <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
+                <ion-checkbox color="ow"  [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+         
+ 
+    </div>
+
+    <div *ngIf="visible == (totalJAR + 4)">
+        <ion-grid>
+            <ion-row>
+             <ion-col size="12" style="text-align: center">
+              <ion-label class="ion-text-wrap">¿Por qué considera que el producto <b>NO</b> corresponde a la calidad básica? </ion-label>
+             </ion-col>
+           </ion-row>
+           <ion-row>
+              <ion-col class="noCorresponde" 
+                      *ngFor="let option1 of answer.noCorresponde">
+                <ion-item>
+                <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
+                <ion-checkbox color="ow"  [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+         
+
+    </div>
+
+    <div *ngIf="visible == (totalJAR + 5)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" style="text-align: center">
+                <ion-button (click)="save()"  size="large" color="ow">Guardar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+</ion-content>
