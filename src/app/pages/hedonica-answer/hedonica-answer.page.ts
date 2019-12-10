@@ -4,6 +4,7 @@ import { formatDate, DatePipe } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { PareadaService } from '../../services/pareada.service';
 import { HedonicaAcceptancePage } from '../hedonica-acceptance/hedonica-acceptance.page';
+import { HedonicaService } from '../../services/hedonica.service';
 
 @Component({
   selector: 'app-hedonica-answer',
@@ -30,17 +31,26 @@ export class HedonicaAnswerPage implements OnInit {
     corresponde: [],
     noCorresponde: [],
     otrosSi: '',
-    otrosNo: ''
+    otrosNo: '',
+    otroStrange: ''
   };
 
   limit: number;
 
   strangeSensationSubscribe: any;
 
+  buttons: boolean[];
+  otrossample = false;
+  flagSi = false;
+  flagNo = false;
+
+  disableCheck: boolean[];
+
   constructor(
     private modalController: ModalController,
     private pareadaService: PareadaService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private hedonicaService: HedonicaService
   ) {
    }
 
@@ -50,7 +60,20 @@ export class HedonicaAnswerPage implements OnInit {
     this.getSensation();
     this.getAceptation();
     this.getLimitPosition();
+    this.disableNext();
+    this.answer.test = this.hedonicaTest.id;
     this.answer.date = this.datePipe.transform(this.today, 'dd-MM-yyyy');
+  }
+
+  disableNext() {
+    this.buttons = [];
+    this.buttons.push(true);
+    for (let i = 0; i <= this.totalJAR + 4; i++) {
+        this.buttons.push(false);
+    }
+
+    this.buttons.push(true);
+    this.buttons[this.totalJAR + 4] = true;
   }
 
   getTotalJar() {
@@ -93,14 +116,16 @@ export class HedonicaAnswerPage implements OnInit {
 
 
   getSensation() {
+    if (this.strangeSensationSubscribe) { this.strangeSensationSubscribe.unsubscribe(); }
     this.strangeSensationSubscribe = this.pareadaService.getStrangeSensation()
      .subscribe(sen => {
       this.answer.strange = [];
+      this.disableCheck = [];
       sen.forEach( sensation => {
 
           sensation.options.forEach(option => {
             this.answer.strange.push({val: option, isChecked: false});
-
+            this.disableCheck.push(false);
          });
        });
      });
@@ -124,6 +149,7 @@ export class HedonicaAnswerPage implements OnInit {
   }
 
   save() {
+    this.hedonicaService.addAnswer(this.answer);
     this.modalController.dismiss();
   }
 
@@ -153,8 +179,11 @@ export class HedonicaAnswerPage implements OnInit {
 
 
   limiteEstablecido(index: number) {
+     this.buttons[this.visible] = true;
      if (index <= this.limit) {
         this.presentModal();
+     } else {
+      this.answer.tipoJar[this.count].point = 0;
      }
   }
 
@@ -162,4 +191,128 @@ export class HedonicaAnswerPage implements OnInit {
     const arreglo: string[] = this.hedonicaTest.hedonica[0].scales;
     this.limit = arreglo.indexOf(this.hedonicaTest.intensity);
   }
+
+
+  strangeSampleClick(option: StrangeModel) {
+
+    switch (option.val) {
+
+      case 'Otros':
+          this.answer.strange[8].isChecked = false;
+          if (option.isChecked === true) {
+            this.otrossample = true;
+          } else {
+            this.otrossample = false;
+            this.answer.otroStrange = '';
+          }
+          break;
+          default:
+              this.answer.strange[8].isChecked = false;
+              break;
+
+    }
+
+    this.checkStranges();
+
+   }
+
+   checkStranges() {
+    let result = false;
+
+    this.answer.strange.forEach(str => {
+      if (!result) {
+        if ( str.isChecked === true) {
+            result = true;
+      }  else {
+        result = false;
+      }
+      }
+    });
+
+    if (this.otrossample) {
+      if (this.answer.otroStrange.trim()) {
+        result = true;
+      } else {
+        result = false;
+      }
+    }
+
+
+    if (result) {
+      this.buttons[this.visible] = true;
+    } else {
+      this.buttons[this.visible] = false;
+    }
+  }
+
+  ningunoClick(option: StrangeModel) {
+
+    if (option.isChecked === true) {
+      this.answer.strange[0].isChecked = false;
+      this.answer.strange[1].isChecked = false;
+      this.answer.strange[2].isChecked = false;
+      this.answer.strange[3].isChecked = false;
+      this.answer.strange[4].isChecked = false;
+      this.answer.strange[5].isChecked = false;
+      this.answer.strange[6].isChecked = false;
+      this.answer.strange[7].isChecked = false;
+      this.answer.strange[9].isChecked = false;
+    } else {
+      this.answer.strange[8].isChecked = false;
+    }
+
+    this.checkStranges();
+
+  }
+
+  generalSelected() {
+    this.buttons[this.visible] = true;
+  }
+
+  sampleSiClick(option: StrangeModel, index: number) {
+
+    console.log(index);
+    if (option.isChecked) {
+      this.disableCheck[index] = true;
+      this.answer.noCorresponde[index].isChecked = false;
+    } else {
+      this.disableCheck[index] = false;
+    }
+
+    this.sampleSiChecked();
+    }
+
+    sampleSiChecked() {
+      let result = false;
+      this.answer.corresponde.forEach(str => {
+        if (!result) {
+          if ( str.isChecked === true) {
+              result = true;
+        }  else {
+          result = false;
+        }
+        }
+      });
+
+      if (result || this.answer.otrosSi.trim()) {
+        this.buttons[this.visible] = true;
+        this.flagSi = true;
+      } else {
+        this.buttons[this.visible] = false;
+        this.flagSi = false;
+      }
+    }
+
+
+    otrosSi() {
+      if (this.answer.otrosSi.trim() || this.flagSi) {
+        this.buttons[this.visible] = true;
+      } else {
+        this.buttons[this.visible] = false;
+      }
+    }
+
+      ionViewWillLeave() {
+        if (this.strangeSensationSubscribe) { this.strangeSensationSubscribe.unsubscribe(); }
+     }
 }

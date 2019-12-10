@@ -21,7 +21,7 @@
         </ion-buttons>
       
         <ion-buttons  slot="end">
-            <ion-button [disabled]="!answer.name.trim() || visible == (totalJAR + 5)" (click)="next()"  color="pw" >
+            <ion-button [disabled]="!answer.name.trim() || buttons[visible] == false || visible == (totalJAR + 5)" (click)="next()"  color="pw" >
                 <ion-icon name="arrow-round-forward"></ion-icon>
               </ion-button>
         </ion-buttons>
@@ -111,10 +111,10 @@
               </ion-row>
             </ion-grid>
 
-              <ion-grid>
+              <ion-grid class="Absolute-Center">
                 <ion-segment [(ngModel)]="answer.hedonica[count].point">
                   <ion-row >
-                      <ion-col class="general" size="2.2"
+                      <ion-col class="general" size="11" size-lg="2" size-md="2" size-sm="2"size-sx="11"
                       *ngFor="let hedo of hedonicaTest.hedonica[count].scales; index as i">
                           <ion-segment-button value="{{i + 1}}"(click)="limiteEstablecido(i)">
                               <ion-label  class="ion-text-wrap">{{hedo}}</ion-label>
@@ -128,7 +128,7 @@
 
     <div *ngIf="visible == (totalJAR + 1)">
       
-        <ion-grid>
+        <ion-grid class="Absolute-Center">
             <ion-row>
               <ion-col size="12" style="text-align: center">
                 <ion-label class="ion-text-wrap">
@@ -139,17 +139,25 @@
 
             <ion-row>
               <ion-col class="sensation" 
-                      *ngFor="let option1 of answer.strange">
-                <ion-item>
+                      *ngFor="let option1 of answer.strange"
+                       size="12" size-lg="3.8" size-md="3.8" size-sm="3.8"size-sx="12">
+                <ion-item *ngIf="option1.val === 'Ninguno'">
                 <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
-                <ion-checkbox color="ow"  [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                <ion-checkbox color="ow" (ionChange)="ningunoClick(option1)" [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
                 </ion-item>
+                <ion-item *ngIf="option1.val != 'Ninguno'">
+                    <ion-label  class="ion-text-wrap">{{ option1.val }}</ion-label>
+                    <ion-checkbox color="ow"  (ionChange)="strangeSampleClick(option1)" [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                    </ion-item>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col class="sensation">
+              <ion-col size="12" class="sensation">
                 
                 <ion-input type="text"
+                [disabled]="!otrossample"
+                [(ngModel)]="answer.otroStrange"
+                (ionChange)="checkStranges()"
                 placeholder="Escriba aquí"></ion-input>
               
             </ion-col>
@@ -161,7 +169,7 @@
     </div>
 
     <div *ngIf="visible == (totalJAR + 2)">
-        <ion-grid>
+        <ion-grid >
             <ion-row>
               <ion-col size="12" style="text-align: center">
                <ion-label class="ion-text-wrap">
@@ -177,12 +185,12 @@
            </ion-row>
           </ion-grid>
          
-             <ion-grid>
+             <ion-grid class="Absolute-Center">
                  <ion-segment [(ngModel)]="answer.general">
                    <ion-row >
                      <ion-col *ngFor="let general of hedonicaTest.general.scales; index as i"
-                     size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12" class="general">
-                         <ion-segment-button          
+                     class="general" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
+                         <ion-segment-button (ionSelect)="generalSelected()"         
                                              value="{{i + 1}}">
                              <ion-label class="ion-text-wrap">
                                {{general}}
@@ -196,7 +204,7 @@
     </div>
 
     <div *ngIf="visible == (totalJAR + 3)">
-        <ion-grid>
+        <ion-grid class="Absolute-Center">
             <ion-row>
              <ion-col size="12" style="text-align: center">
               <ion-label class="ion-text-wrap">¿Por qué considera que el producto <b>SI</b> corresponde a la calidad seleccionada en la escala de la
@@ -205,20 +213,33 @@
            </ion-row>
            <ion-row>
               <ion-col class="siCorresponde" 
-                      *ngFor="let option1 of answer.corresponde">
+                      *ngFor="let option of answer.corresponde; let i = index"
+                      size="11" size-lg="3.8" size-md="3.8" size-sm="3.8"size-sx="11">
                 <ion-item>
-                <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
-                <ion-checkbox color="ow"  [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                <ion-label class="ion-text-wrap">{{ option.val }}</ion-label>
+                <ion-checkbox color="ow" (ionChange)="sampleSiClick(option, i)"  [(ngModel)]="option.isChecked" slot="start"></ion-checkbox>
                 </ion-item>
               </ion-col>
+              
             </ion-row>
+
+            <ion-row>
+                <ion-col size="11" class="siCorresponde">
+                  <ion-label>Otros:</ion-label>
+                  <ion-input type="text"
+                  [(ngModel)]="answer.otrosSi"
+                  (ionChange)="otrosSi()"
+                  placeholder="Escriba aquí"></ion-input>
+                
+              </ion-col>
+              </ion-row>
           </ion-grid>
          
  
     </div>
 
     <div *ngIf="visible == (totalJAR + 4)">
-        <ion-grid>
+        <ion-grid class="Absolute-Center">
             <ion-row>
              <ion-col size="12" style="text-align: center">
               <ion-label class="ion-text-wrap">¿Por qué considera que el producto <b>NO</b> corresponde a la calidad básica? </ion-label>
@@ -226,13 +247,24 @@
            </ion-row>
            <ion-row>
               <ion-col class="noCorresponde" 
-                      *ngFor="let option1 of answer.noCorresponde">
+                      *ngFor="let option of answer.noCorresponde; let i = index"
+                      size="11" size-lg="3.8" size-md="3.8" size-sm="3.8"size-sx="11">
                 <ion-item>
-                <ion-label class="ion-text-wrap">{{ option1.val }}</ion-label>
-                <ion-checkbox color="ow"  [(ngModel)]="option1.isChecked" slot="start"></ion-checkbox>
+                <ion-label class="ion-text-wrap">{{ option.val }}</ion-label>
+                <ion-checkbox color="ow" [disabled]="disableCheck[i]" [(ngModel)]="option.isChecked" slot="start"></ion-checkbox>
                 </ion-item>
               </ion-col>
             </ion-row>
+
+            <ion-row>
+                <ion-col size="11" class="noCorresponde">
+                  <ion-label>Otros:</ion-label>
+                  <ion-input type="text"
+                  [(ngModel)]="answer.otrosNo"
+                  placeholder="Escriba aquí"></ion-input>
+                
+              </ion-col>
+              </ion-row>
           </ion-grid>
          
 

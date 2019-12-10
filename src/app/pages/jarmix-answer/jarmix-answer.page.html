@@ -92,11 +92,11 @@
   </ion-row>
  </ion-grid>
 
-    <ion-grid>
+    <ion-grid class="Absolute-Center">
         <ion-segment [(ngModel)]="answer.generalSample">
           <ion-row >
             <ion-col *ngFor="let general of jarMixTest.general.scales; index as i"
-            size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12" class="general">
+            size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11" class="general">
                 <ion-segment-button (ionSelect)="generalSelected()"         
                                     value="{{i + 1}}">
                     <ion-label class="ion-text-wrap">
@@ -114,7 +114,7 @@
 </div>
 
 <div *ngIf="visible > 1 && visible <= (totalJAR + 1) ">
-  <ion-grid>
+  <ion-grid class="Absolute-Center">
     <ion-row>
       <ion-col size="12" style="text-align: center">
         <ion-label class="ion-text-wrap">
@@ -124,31 +124,31 @@
     </ion-row>
     <ion-segment [(ngModel)]="jars[count].point">
     <ion-row>
-      <ion-col class="jar1" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+      <ion-col class="jar1" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
           <ion-segment-button value="1"
                               (click)="jarSelected()">           
               <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar1}}</ion-label>
         </ion-segment-button>
       </ion-col>
-      <ion-col class="jar2" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+      <ion-col class="jar2" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
           <ion-segment-button value="2"
                               (click)="jarSelected()">             
               <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar2}}</ion-label> 
           </ion-segment-button>
       </ion-col>
-      <ion-col class="jar3" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+      <ion-col class="jar3" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
           <ion-segment-button value="3"
                               (click)="jarSelected()">               
               <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar3}}</ion-label>
             </ion-segment-button>
       </ion-col>
-      <ion-col class="jar2" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12"> 
+      <ion-col class="jar2" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11"> 
           <ion-segment-button value="4"
                               (click)="jarSelected()">            
               <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar4}}</ion-label>
             </ion-segment-button>
       </ion-col>
-      <ion-col class="jar1" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+      <ion-col class="jar1" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
           <ion-segment-button value="5"
                               (click)="jarSelected()">               
               <ion-label class="ion-text-wrap">{{jarMixTest.jars[count].scales.jar5}}</ion-label>
@@ -175,32 +175,28 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="asemejan">
+      <ion-col class="asemejan" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input
           type="text"
           [(ngModel)]="answer.agrado1"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
-      <ion-col class="asemejan">
+      <ion-col class="asemejan" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input 
           type="text"
           [(ngModel)]="answer.agrado2"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
-      <ion-col class="asemejan">
+      <ion-col class="asemejan" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input 
           type="text"
           [(ngModel)]="answer.agrado3"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
-      <ion-col class="asemejan">
+      <ion-col class="asemejan" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input 
           type="text"
           [(ngModel)]="answer.agrado4"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
     </ion-row>
@@ -220,32 +216,28 @@
     </ion-row>
  
     <ion-row>
-      <ion-col class="diferencian">
+      <ion-col class="diferencian" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input 
           type="text"
           [(ngModel)]="answer.desagrado1"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
-      <ion-col class="diferencian">
+      <ion-col class="diferencian" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input  
           type="text"
           [(ngModel)]="answer.desagrado2"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
-      <ion-col class="diferencian">
+      <ion-col class="diferencian" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input 
           type="text"
           [(ngModel)]="answer.desagrado3"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
-      <ion-col class="diferencian">
+      <ion-col class="diferencian" size="12" size-lg="5.6" size-md="5.6" size-sm="5.6"size-sx="12">
           <ion-input 
           type="text"
           [(ngModel)]="answer.desagrado4"
-          (ionChange)="validInput()"
           placeholder="Escriba aquí"></ion-input>
       </ion-col>
     </ion-row>
@@ -266,17 +258,19 @@
   <ion-grid>
     
     <ion-row>
+        <ion-col></ion-col>  
       <ion-col >
           <ion-segment [(ngModel)]="answer.comprar" (ionChange)="buySelected()">
-          <ion-segment-button class="si" value= true>
+          <ion-segment-button class="si" value= true style="width: 100%;">
               <ion-label>Si</ion-label>
             </ion-segment-button>
 
-          <ion-segment-button class="no"  value= false>
+          <ion-segment-button class="no"  value= false style="width: 100%;">
               <ion-label>No</ion-label>
             </ion-segment-button>
           </ion-segment>
       </ion-col>
+      <ion-col></ion-col>  
     
     </ion-row>
   
@@ -298,18 +292,19 @@
   <ion-grid>
     
     <ion-row>
-        
-      <ion-col >
+      <ion-col></ion-col>  
+      <ion-col>
           <ion-segment [(ngModel)]="answer.consumir" (ionChange)="consumerSelected()">
-          <ion-segment-button class="si" value= true>
+          <ion-segment-button class="si" value= true style="width: 100%;">
               <ion-label>Si</ion-label>
             </ion-segment-button>
 
-          <ion-segment-button class="no" value= false>
+          <ion-segment-button class="no" value= false style="width: 100%;">
               <ion-label>No</ion-label>
             </ion-segment-button>
           </ion-segment>
       </ion-col>
+      <ion-col></ion-col>  
     </ion-row>
   
   </ion-grid>

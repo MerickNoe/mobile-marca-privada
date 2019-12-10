@@ -117,15 +117,16 @@ export class JarmixAnswerPage implements OnInit {
     this.answer.jars = this.jars;
   }
 
-  async disableNext() {
+  disableNext() {
     this.buttons = [];
-    await this.buttons.push(true);
+    this.buttons.push(true);
     for (let i = 0; i <= this.totalJAR + 4; i++) {
         this.buttons.push(false);
     }
 
     this.buttons.push(true);
 
+    this.buttons[this.totalJAR + 2] = true;
 
   }
 
@@ -137,20 +138,6 @@ export class JarmixAnswerPage implements OnInit {
     this.buttons[this.visible] = true;
   }
 
-  validInput() {
-    if ((this.answer.desagrado1.trim() ||
-        this.answer.desagrado2.trim() ||
-        this.answer.desagrado3.trim() ||
-        this.answer.desagrado4.trim()) &&
-        (this.answer.agrado1.trim() ||
-        this.answer.agrado2.trim() ||
-        this.answer.agrado3.trim() ||
-        this.answer.agrado4.trim())) {
-          this.buttons[this.visible] = true;
-        } else {
-          this.buttons[this.visible] = false;
-        }
-  }
 
   buySelected() {
     this.buttons[this.visible] = true;

@@ -62,6 +62,7 @@ export interface HedonicaAnswer {
     noCorresponde: AceptationModel[];
     otrosSi: string;
     otrosNo: string;
+    otroStrange: string;
 }
 
 export interface TipoJar {

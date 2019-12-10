@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { HedonicaTest } from '../entities/hedonica.interface';
+import { HedonicaTest, HedonicaAnswer } from '../entities/hedonica.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -10,11 +10,12 @@ import { Observable } from 'rxjs';
 export class HedonicaService {
 
   private testCollection: AngularFirestoreCollection<HedonicaTest>;
-
+  private hedonicaAnswer: AngularFirestoreCollection<HedonicaAnswer>;
   constructor(
     private db: AngularFirestore
   ) {
     this.testCollection = this.db.collection<HedonicaTest>('hedonicatest');
+    this.hedonicaAnswer = this.db.collection<HedonicaAnswer>('hedonicaanswer');
    }
 
 
@@ -31,6 +32,11 @@ export class HedonicaService {
       })
     );
    }
+
+   addAnswer( answer: HedonicaAnswer) {
+     this.hedonicaAnswer.add(answer);
+
+  }
 
 
 }

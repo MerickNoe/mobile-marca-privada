@@ -89,7 +89,6 @@ export class DodAnswerPage implements OnInit {
     this.disableNext();
     this.getTotalScales();
     this.getInstructions();
-    this.getTotalScales();
     this.addScales();
     this.answer.date = this.datePipe.transform(this.today, 'dd-MM-yyyy');
     this.answer.test = this.dodTest.id;
@@ -213,8 +212,10 @@ export class DodAnswerPage implements OnInit {
       this.answer.set2.negativePositive.push({attribute: scale.attribute, point: null});
       this.answer.set3.scales.push({attribute: scale.attribute, point: null});
       this.answer.set3.negativePositive.push({attribute: scale.attribute, point: null});
-      this.answer.set4.scales.push({attribute: scale.attribute, point: null});
-      this.answer.set4.negativePositive.push({attribute: scale.attribute, point: null});
+      if (this.dodTest.set4.samplePropuesta1) {
+        this.answer.set4.scales.push({attribute: scale.attribute, point: null});
+        this.answer.set4.negativePositive.push({attribute: scale.attribute, point: null});
+      }
     });
 }
 
@@ -263,7 +264,7 @@ async presentModalSet1(sample1: string, pn: number) {
   const modalPN = await this.modalController.create({
     component: PositiveNegativeDODPage,
     backdropDismiss: false,
-    cssClass: 'positive-negatve',
+    cssClass: 'positive-negative',
     componentProps: {
       sample: sample1,
       optionSelected: pn
@@ -283,7 +284,7 @@ async presentModalSet2(sample1: string, pn: number) {
   const modalPN = await this.modalController.create({
     component: PositiveNegativeDODPage,
     backdropDismiss: false,
-    cssClass: 'positive-negatve',
+    cssClass: 'positive-negative',
     componentProps: {
       sample: sample1,
       optionSelected: pn
@@ -303,7 +304,7 @@ async presentModalSet3(sample1: string, pn: number) {
   const modalPN = await this.modalController.create({
     component: PositiveNegativeDODPage,
     backdropDismiss: false,
-    cssClass: 'positive-negatve',
+    cssClass: 'positive-negative',
     componentProps: {
       sample: sample1,
       optionSelected: pn
@@ -323,7 +324,7 @@ async presentModalSet4(sample1: string, pn: number) {
   const modalPN = await this.modalController.create({
     component: PositiveNegativeDODPage,
     backdropDismiss: false,
-    cssClass: 'positive-negatve',
+    cssClass: 'positive-negative',
     componentProps: {
       sample: sample1,
       optionSelected: pn

@@ -77,7 +77,7 @@
     </div>
 
     <div *ngIf="visible == 1">
-     <ion-grid>
+     <ion-grid class="Absolute-Center">
        <ion-row>
          <ion-col style="text-align: center;">
             <div *ngIf="childrenTest.number === 1">
@@ -91,31 +91,31 @@
         <ion-segment [(ngModel)]="answer.general">
          <ion-row>
             
-           <ion-col class="positive" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+           <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
               <ion-segment-button value="1" (click)="enableNext()">
                   <img class="carita" src="assets/icon/crazy.svg" alt="">
                   <ion-label class="ion-text-wrap">{{childrenTest.scales.scale1}}</ion-label>
                </ion-segment-button>
           </ion-col>    
-          <ion-col class="positive" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+          <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
              <ion-segment-button value="2" (click)="enableNext()">
                 <img class="carita" src="assets/icon/sad.svg" alt="">
                 <ion-label class="ion-text-wrap">{{childrenTest.scales.scale2}}</ion-label>
               </ion-segment-button>
             </ion-col>
-            <ion-col class="positive" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+            <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
               <ion-segment-button value="3" (click)="enableNext()">
                   <img class="carita" src="assets/icon/meh.svg" alt="">
                   <ion-label class="ion-text-wrap">{{childrenTest.scales.scale3}}</ion-label>
                 </ion-segment-button>
               </ion-col>
-              <ion-col class="positive" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+              <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
                 <ion-segment-button value="4" (click)="enableNext()">
                     <img class="carita" src="assets/icon/smile.svg" alt="">
                     <ion-label class="ion-text-wrap">{{childrenTest.scales.scale4}}</ion-label>
                   </ion-segment-button>
                 </ion-col>
-                <ion-col class="positive" size="12" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="12">
+                <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
                   <ion-segment-button value="5" (click)="enableNext()">
                       <img class="carita" src="assets/icon/laugh.svg" alt="">
                       <ion-label class="ion-text-wrap">{{childrenTest.scales.scale5}}</ion-label>
