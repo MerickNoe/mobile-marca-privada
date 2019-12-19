@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "keystore": "my-release-key.jks",
+      "storePassword": "Walmart2019",
+      "alias": "Walmart",
+      "password": "Walmart2019",
+      "keystoreType": ""
+    }
+  }
+}
