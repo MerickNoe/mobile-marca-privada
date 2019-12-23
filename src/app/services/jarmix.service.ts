@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { JarMixTest, JarMixAnswer } from '../entities/jarmix.interface';
+import { JarMixTest, JarMixAnswer, JarMix2Answer } from '../entities/jarmix.interface';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -11,12 +11,14 @@ export class JarmixService {
 
   private testCollection: AngularFirestoreCollection<JarMixTest>;
   private answerCollection: AngularFirestoreCollection<JarMixAnswer>;
+  private answerMix2Collection: AngularFirestoreCollection<JarMix2Answer>;
 
   constructor(
     private db: AngularFirestore
   ) {
     this.testCollection = this.db.collection<JarMixTest>('jarmixtest');
     this.answerCollection = this.db.collection<JarMixAnswer>('jarmixanswer');
+    this.answerMix2Collection = this.db.collection<JarMix2Answer>('jarmix2answer');
    }
 
    getAllActives(): Observable<JarMixTest[]> {
@@ -35,5 +37,10 @@ export class JarmixService {
   addAnswer(answer: JarMixAnswer) {
 
     this.answerCollection.add(answer);
+  }
+
+  addAnswerMix2(answer: JarMix2Answer) {
+
+    this.answerMix2Collection.add(answer);
   }
 }
