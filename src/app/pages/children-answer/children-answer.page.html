@@ -1,0 +1,141 @@
+<ion-header>
+    <ion-toolbar color="primary" mode="ios">
+      <ion-buttons slot="end">
+        <ion-button (click)="close()">
+            <ion-icon color="danger" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  
+  
+      <ion-title>{{ childrenTest.product }} </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content class="ion-padding">
+
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button [disabled]="visible == 0" (click)="back()"  color="pw" >
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      
+        <ion-buttons  slot="end">
+            <ion-button [disabled]="!answer.name.trim() || buttons[visible] == false  || visible == 3" (click)="next()"  color="pw" >
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <div *ngIf="visible == 0">
+        <div>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12" style="text-align: center; font-weight: bold ">
+                  <ion-label class="ion-text-wrap">
+                      <b>Evaluación de {{ childrenTest.product }}</b>
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+        </div>
+    
+        <div>
+            <ion-item>
+                <ion-label style="font-weight: bold">Nombre:</ion-label>
+                <ion-input
+                type="text"
+                placeholder="Escriba su nombre"
+                [(ngModel)]="answer.name">
+                </ion-input>
+            </ion-item>
+        </div>
+        <div>
+            <ion-item>
+                <ion-label style="text-align: center; font-weight: bold;">Instrucciones</ion-label>
+            </ion-item>
+        </div>
+    
+        <ion-grid>
+            <ion-row >
+              <ion-col size="1" style="text-align: center">
+                 <ion-label><b>1</b></ion-label> 
+              </ion-col>
+              <ion-col style="text-align: justify">
+                 <ion-label>Prueba el producto.</ion-label> 
+              </ion-col>
+            </ion-row>
+            <ion-row >
+                <ion-col size="1" style="text-align: center">
+                   <ion-label><b>2</b></ion-label> 
+                </ion-col>
+                <ion-col style="text-align: justify">
+                   <ion-label>Según cuánto te gustó el {{ childrenTest.product }}, selecciona la carita.</ion-label> 
+                </ion-col>
+              </ion-row>
+          </ion-grid>
+    </div>
+
+    <div *ngIf="visible == 1">
+     <ion-grid class="Absolute-Center">
+       <ion-row>
+         <ion-col style="text-align: center;">
+            <div *ngIf="childrenTest.number === 1">
+                <ion-icon style="height: 150px; width: 150px; vertical-align: middle" [color]="childrenTest.sample1.toLowerCase()" name="moon"></ion-icon>
+            </div>
+            <div *ngIf="childrenTest.number === 2">
+                <ion-icon style="height: 150px; width: 150px; vertical-align: middle" [color]="childrenTest.sample1.toLowerCase()" name="sunny"></ion-icon>
+            </div>
+         </ion-col>
+        </ion-row>
+        <ion-segment [(ngModel)]="answer.general">
+         <ion-row>
+            
+           <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
+              <ion-segment-button value="1" (click)="enableNext()">
+                  <img class="carita" src="assets/icon/crazy.svg" alt="">
+                  <ion-label class="ion-text-wrap">{{childrenTest.scales.scale1}}</ion-label>
+               </ion-segment-button>
+          </ion-col>    
+          <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
+             <ion-segment-button value="2" (click)="enableNext()">
+                <img class="carita" src="assets/icon/sad.svg" alt="">
+                <ion-label class="ion-text-wrap">{{childrenTest.scales.scale2}}</ion-label>
+              </ion-segment-button>
+            </ion-col>
+            <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
+              <ion-segment-button value="3" (click)="enableNext()">
+                  <img class="carita" src="assets/icon/meh.svg" alt="">
+                  <ion-label class="ion-text-wrap">{{childrenTest.scales.scale3}}</ion-label>
+                </ion-segment-button>
+              </ion-col>
+              <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
+                <ion-segment-button value="4" (click)="enableNext()">
+                    <img class="carita" src="assets/icon/smile.svg" alt="">
+                    <ion-label class="ion-text-wrap">{{childrenTest.scales.scale4}}</ion-label>
+                  </ion-segment-button>
+                </ion-col>
+                <ion-col class="positive" size="11" size-lg="2.2" size-md="2.2" size-sm="2.2"size-sx="11">
+                  <ion-segment-button value="5" (click)="enableNext()">
+                      <img class="carita" src="assets/icon/laugh.svg" alt="">
+                      <ion-label class="ion-text-wrap">{{childrenTest.scales.scale5}}</ion-label>
+                    </ion-segment-button>
+                 
+                 </ion-col>
+                
+          </ion-row>
+        </ion-segment>
+     </ion-grid>
+    </div>
+
+    <div *ngIf="visible == 2">
+        <ion-grid>
+            <ion-row>
+              <ion-col size="12" style="text-align: center">
+                  <ion-button (click)="save()"  size="large" color="cw">Guardar</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+    </div>
+
+</ion-content>

@@ -1,0 +1,199 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="ios">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+          <ion-icon color="danger" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title>{{ duotrioTest.product }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button [disabled]="visible == 0 " (click)="back()"  color="pw" >
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+      
+        <ion-buttons  slot="end">
+            <ion-button [disabled]="!answer.name.trim() || buttons[visible] == false  || visible == 5" (click)="next()"  color="pw" >
+                <ion-icon name="arrow-round-forward"></ion-icon>
+              </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+
+
+
+<div *ngIf="visible == 0">
+    <div>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" style="text-align: center; font-weight: bold ">
+              <ion-label class="ion-text-wrap">
+                  <b>Prueba Dúo-Trío: {{ duotrioTest.product }}</b>
+              </ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </div>
+
+    <div>
+        <ion-item>
+            <ion-label style="font-weight: bold">Nombre:</ion-label>
+            <ion-input
+            type="text"
+            placeholder="Escriba su nombre"
+            [(ngModel)]="answer.name">
+            </ion-input>
+        </ion-item>
+    </div>
+
+    <div>
+        <ion-item>
+            <ion-label style="text-align: center; font-weight: bold;">Instrucciones</ion-label>
+        </ion-item>
+    </div>
+
+    <ion-grid *ngFor="let instruction of instructions | async">
+        <ion-row *ngFor="let inst of instruction.instructions">
+          <ion-col size="1" style="text-align: center">
+             <ion-label><b>{{inst.substring(0,1)}}</b></ion-label> 
+          </ion-col>
+          <ion-col style="text-align: justify">
+             <ion-label>{{inst.substring(2, inst.length)}}</ion-label> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+</div>
+
+
+<div *ngIf="visible == 1">
+    <ion-grid>
+      <ion-row>
+        <ion-col style="text-align: center;">
+            <b>Set 1:</b> Seleccione cuál de las muestras codificadas es <b>IGUAL</b> a R
+        </ion-col>
+      </ion-row>
+
+        <ion-segment  [(ngModel)]="answer.sample1Selected">
+          <ion-row>
+            <ion-col class="duoTrio" >
+              <ion-segment-button [value]="duotrioTest.set1.sample1"
+              (click)="set1Select()">
+                  <ion-icon style="height: 150px; width: 150px; vertical-align: middle" [color]="duotrioTest.set1.sample1.toLowerCase()" name="square"></ion-icon>
+              </ion-segment-button>
+            </ion-col>
+            <ion-col class="duoTrio" >
+                <ion-segment-button [value]="duotrioTest.set1.sample2"
+                (click)="set1Select()">
+                    <ion-icon style="height: 150px; width: 150px; vertical-align: middle" [color]="duotrioTest.set1.sample2.toLowerCase()" name="square"></ion-icon>
+                </ion-segment-button>
+            </ion-col>
+          </ion-row>
+      </ion-segment>
+      </ion-grid>
+</div>
+
+<div *ngIf="visible == 2">
+    <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="ion-text-wrap">
+                ¿Por qué es diferente la muestra que <b>NO</b> seleccionó?
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="duotiro"  *ngFor="let option of answer.diferencias1">
+              <ion-item>
+                  <ion-label class="ion-text-wrap">{{ option.val }}</ion-label>
+                  <ion-checkbox color="pw"  (ionChange)="diferencias1Click(option)" [(ngModel)]="option.isChecked" slot="start"></ion-checkbox>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="duotiro" >
+              <ion-input type="text"
+              [disabled]="!otros1"
+              [(ngModel)]="answer.otro1"
+              (ionChange)="checkDiferencias1()"
+              placeholder="Escriba aquí"></ion-input>
+          </ion-col>
+          </ion-row>
+      </ion-grid>
+</div>
+
+<div *ngIf="visible == 3">
+    <ion-grid>
+      <ion-row>
+        <ion-col style="text-align: center;">
+            <b>Set 2:</b> Seleccione cuál de las muestras codificadas es <b>IGUAL</b> a R
+        </ion-col>
+      </ion-row>
+
+        <ion-segment [(ngModel)]="answer.sample2Selected">
+          <ion-row>
+            <ion-col class="duoTrio">
+              <ion-segment-button [value]="duotrioTest.set2.sample1"
+              (click)="set2Select()">
+                  <ion-icon style="height: 150px; width: 150px; vertical-align: middle" [color]="duotrioTest.set2.sample1.toLowerCase()" name="square"></ion-icon>
+              </ion-segment-button>
+            </ion-col>
+            <ion-col class="duoTrio">
+                <ion-segment-button [value]="duotrioTest.set2.sample2"
+                (click)="set2Select()">
+                    <ion-icon style="height: 150px; width: 150px; vertical-align: middle" [color]="duotrioTest.set2.sample2.toLowerCase()" name="square"></ion-icon>
+                </ion-segment-button>
+            </ion-col>
+          </ion-row>
+      </ion-segment>
+      </ion-grid>
+</div>
+
+<div *ngIf="visible == 4">
+    <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label class="ion-text-wrap">
+                ¿Por qué es diferente la muestra que <b>NO</b> seleccionó?
+            </ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="duotiro"  *ngFor="let option of answer.diferencias2">
+              <ion-item>
+                  <ion-label class="ion-text-wrap">{{ option.val }}</ion-label>
+                  <ion-checkbox color="pw"  (ionChange)="diferencias2Click(option)" [(ngModel)]="option.isChecked" slot="start"></ion-checkbox>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="duotiro" >
+              <ion-input type="text"
+              [disabled]="!otros2"
+              [(ngModel)]="answer.otro2"
+              (ionChange)="checkDiferencias2()"
+              placeholder="Escriba aquí"></ion-input>
+          </ion-col>
+          </ion-row>
+      </ion-grid>
+</div>
+
+<div *ngIf="visible == 5">
+    <ion-grid>
+        <ion-row>
+          <ion-col size="12" style="text-align: center">
+              <ion-button (click)="save()"  size="large" color="gw">Guardar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+</div>
+
+
+</ion-content>
