@@ -35,6 +35,6 @@ export class DodService {
    }
 
    create(test: DODAnswer) {
-    this.dodAnswer.add(test);
+    return this.dodAnswer.add(test);
    }
 }

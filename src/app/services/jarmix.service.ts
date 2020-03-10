@@ -36,11 +36,11 @@ export class JarmixService {
 
   addAnswer(answer: JarMixAnswer) {
 
-    this.answerCollection.add(answer);
+   return this.answerCollection.add(answer);
   }
 
   addAnswerMix2(answer: JarMix2Answer) {
 
-    this.answerMix2Collection.add(answer);
+   return this.answerMix2Collection.add(answer);
   }
 }
