@@ -34,7 +34,7 @@ export class HedonicaService {
    }
 
    addAnswer( answer: HedonicaAnswer) {
-     this.hedonicaAnswer.add(answer);
+    return this.hedonicaAnswer.add(answer);
 
   }
 
