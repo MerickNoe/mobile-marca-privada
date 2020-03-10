@@ -34,6 +34,6 @@ export class DuotrioService {
    }
 
    create(test: DuoTrioAnswer) {
-      this.answerCollection.add(test);
+     return this.answerCollection.add(test);
    }
 }

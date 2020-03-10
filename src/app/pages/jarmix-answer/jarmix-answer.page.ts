@@ -7,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import {  DatePipe } from '@angular/common';
 import { IntructionService } from '../../services/intruction.service';
 import { Observable } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-jarmix-answer',
@@ -84,7 +85,8 @@ export class JarmixAnswerPage implements OnInit {
     private jarmixService: JarmixService,
     private modalController: ModalController,
     private instructionService: IntructionService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private alertController: AlertController
   ) {
    }
 
@@ -150,9 +152,16 @@ export class JarmixAnswerPage implements OnInit {
   }
 
   async save() {
-    await this.createInterface();
-    this.jarmixService.addAnswer(this.answer);
-    this.modalController.dismiss();
+    try {
+      await this.createInterface();
+      const res = await  this.jarmixService.addAnswer(this.answer);
+      if (res) {
+        this.presentAlert('Ha finalizado la encuesta exitosamente.');
+       }
+    } catch (error) {
+      this.presentAlert('Error interno.');
+     }
+
   }
 
   createInterface() {
@@ -227,9 +236,15 @@ export class JarmixAnswerPage implements OnInit {
     });
   }
 
-   saveMix2() {
-    this.jarmixService.addAnswerMix2(this.answerMix2);
-    this.modalController.dismiss();
+  async saveMix2() {
+    try {
+      const res = await  this.jarmixService.addAnswerMix2(this.answerMix2);
+      if (res) {
+        this.presentAlert('Ha finalizado la encuesta exitosamente.');
+       }
+    } catch (error) {
+      this.presentAlert('Error interno.');
+     }
   }
 
   disableNextMix2() {
@@ -253,6 +268,22 @@ export class JarmixAnswerPage implements OnInit {
     this.buttons.push(false);
 
 
+  }
+
+  async presentAlert(msg: string) {
+    const alert = await this.alertController.create({
+      message: msg,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: (exit) => {
+                  this.modalController.dismiss();
+                }
+        }]
+    });
+
+    await alert.present();
   }
 
 }

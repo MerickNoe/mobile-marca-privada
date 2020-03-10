@@ -68,7 +68,8 @@ export class PareadaAnswerPage implements OnInit {
     private modalController: ModalController,
     private instructionService: IntructionService,
     private pareadaService: PareadaService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private alertController: AlertController
   ) {
    }
 
@@ -278,9 +279,15 @@ export class PareadaAnswerPage implements OnInit {
  }
 
  async  save() {
-  await this.createInterface();
-  this.pareadaService.addAnswer(this.answer);
-  this.modalController.dismiss();
+   try {
+    await this.createInterface();
+    const res = await this.pareadaService.addAnswer(this.answer);
+    if (res) {
+      this.presentAlert('Ha finalizado la encuesta exitosamente.');
+     }
+   } catch (error) {
+    this.presentAlert('Error interno.');
+   }
   }
 
   createInterface() {
@@ -407,6 +414,22 @@ export class PareadaAnswerPage implements OnInit {
     }
 
     this.checkStranges();
+  }
+
+  async presentAlert(msg: string) {
+    const alert = await this.alertController.create({
+      message: msg,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: (exit) => {
+                  this.modalController.dismiss();
+                }
+        }]
+    });
+
+    await alert.present();
   }
 
 }

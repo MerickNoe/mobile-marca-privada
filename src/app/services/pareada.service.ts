@@ -48,7 +48,7 @@ export class PareadaService {
   }
 
   addAnswer( answer: CompareacionPareadaAnswer) {
-    this.pareadaAnswer.add(answer);
+   return this.pareadaAnswer.add(answer);
   }
 
 }

@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { PareadaService } from '../../services/pareada.service';
 import { HedonicaAcceptancePage } from '../hedonica-acceptance/hedonica-acceptance.page';
 import { HedonicaService } from '../../services/hedonica.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-hedonica-answer',
@@ -50,7 +51,8 @@ export class HedonicaAnswerPage implements OnInit {
     private modalController: ModalController,
     private pareadaService: PareadaService,
     private datePipe: DatePipe,
-    private hedonicaService: HedonicaService
+    private hedonicaService: HedonicaService,
+    private alertController: AlertController
   ) {
    }
 
@@ -148,9 +150,16 @@ export class HedonicaAnswerPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  save() {
-    this.hedonicaService.addAnswer(this.answer);
-    this.modalController.dismiss();
+  async save() {
+    try {
+      const res = await this.hedonicaService.addAnswer(this.answer);
+      if (res) {
+        this.presentAlert('Ha finalizado la encuesta exitosamente.');
+       }
+    } catch (error) {
+      this.presentAlert('Error interno.');
+     }
+
   }
 
 
@@ -315,4 +324,19 @@ export class HedonicaAnswerPage implements OnInit {
       ionViewWillLeave() {
         if (this.strangeSensationSubscribe) { this.strangeSensationSubscribe.unsubscribe(); }
      }
+
+     async presentAlert(msg: string) {
+      const alert = await this.alertController.create({
+        message: msg,
+        backdropDismiss: false,
+        buttons: [
+          {
+            text: 'Aceptar',
+            handler: (exit) => {
+                    this.modalController.dismiss();
+                  }
+          }]
+      });
+      await alert.present();
+    }
 }

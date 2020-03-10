@@ -7,6 +7,7 @@ import { IntructionService } from 'src/app/services/intruction.service';
 import { DatePipe } from '@angular/common';
 import { PositiveNegativeDODPage } from '../positive-negative-dod/positive-negative-dod.page';
 import { DodService } from '../../services/dod.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dod-answer',
@@ -81,7 +82,8 @@ export class DodAnswerPage implements OnInit {
     private modalController: ModalController,
     private instructionService: IntructionService,
     private dodService: DodService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private alertController: AlertController
   ) {
    }
 
@@ -255,9 +257,15 @@ next() {
 }
 
 
-save() {
-  this.dodService.create(this.answer);
-  this.modalController.dismiss();
+async save() {
+  try {
+    const res = await  this.dodService.create(this.answer);
+    if (res) {
+      this.presentAlert('Ha finalizado la encuesta exitosamente.');
+     }
+  } catch (error) {
+    this.presentAlert('Error interno.');
+   }
 }
 
 async presentModalSet1(sample1: string, pn: number) {
@@ -360,6 +368,22 @@ openPositiveNegativeSet4() {
 
   this.presentModalSet4(this.dodTest.set4.samplePropuesta1, this.answer.set4.negativePositive[this.count].point);
 
+}
+
+async presentAlert(msg: string) {
+  const alert = await this.alertController.create({
+    message: msg,
+    backdropDismiss: false,
+    buttons: [
+      {
+        text: 'Aceptar',
+        handler: (exit) => {
+                this.modalController.dismiss();
+              }
+      }]
+  });
+
+  await alert.present();
 }
 
 

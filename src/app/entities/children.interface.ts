@@ -25,3 +25,12 @@ export interface ChildrenAnswer {
     name: string;
     general: number;
 }
+
+export interface ChildrenAnswerMix {
+    id?: string;
+    test: string;
+    date: string;
+    name: string;
+    generalMix1: number;
+    generalMix2: number;
+}

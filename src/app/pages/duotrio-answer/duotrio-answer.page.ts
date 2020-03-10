@@ -7,6 +7,7 @@ import { Instrucion } from 'src/app/entities/intruction.interface';
 import { IntructionService } from 'src/app/services/intruction.service';
 import { DuoTrioAnswer } from '../../entities/duotrio.interface';
 import { DuotrioService } from '../../services/duotrio.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-duotrio-answer',
@@ -45,7 +46,8 @@ export class DuotrioAnswerPage implements OnInit {
     private modalController: ModalController,
     private instructionService: IntructionService,
     private duotrioService: DuotrioService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private alertController: AlertController
   ) {
    }
 
@@ -98,10 +100,15 @@ export class DuotrioAnswerPage implements OnInit {
     this.checkDiferencias1();
    }
 
-   save() {
-    this.duotrioService.create(this.answer);
-    this.modalController.dismiss();
-
+  async save() {
+    try {
+      const res = await this.duotrioService.create(this.answer);
+      if (res) {
+        this.presentAlert('Ha finalizado la encuesta exitosamente.');
+       }
+    } catch (error) {
+      this.presentAlert('Error interno.');
+     }
    }
 
    next() {
@@ -180,5 +187,21 @@ export class DuotrioAnswerPage implements OnInit {
 
     this.checkDiferencias2();
    }
+
+   async presentAlert(msg: string) {
+    const alert = await this.alertController.create({
+      message: msg,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: (exit) => {
+                  this.modalController.dismiss();
+                }
+        }]
+    });
+
+    await alert.present();
+  }
 
 }
